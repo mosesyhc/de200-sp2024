@@ -1,0 +1,9 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: 00-syllabus
+parts:
+- caption: Introduction
+  chapters:
+  - file: lectures/01-intro-data-science

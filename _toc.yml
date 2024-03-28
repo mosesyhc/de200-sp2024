@@ -7,3 +7,7 @@ parts:
 - caption: Introduction
   chapters:
   - file: lectures/01-intro-data-science
+
+- caption: Project
+  chapters:
+  - file: a0-project-specification

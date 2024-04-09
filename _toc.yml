@@ -8,6 +8,15 @@ parts:
   chapters:
   - file: lectures/01-intro-data-science
 
+- caption: Data exploration and visualization with Tableau (on Canvas)
+  chapters:
+  - file: lectures/02-data-exploration
+
+- caption: Data manipulation with pandas
+  chapters:
+  - file: lectures/03-data-manipulation
+
+
 - caption: Project
   chapters:
   - file: a0-project-specification

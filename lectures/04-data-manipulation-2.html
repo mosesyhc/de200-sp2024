@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Data exploration and visualization with Tableau &#8212; DATA_ENG 200 Foundations of Data Science</title>
+    <title>pandas Part II &#8212; DATA_ENG 200 Foundations of Data Science</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/02-data-exploration';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/04-data-manipulation-2';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pandas Part I" href="03-data-manipulation.html" />
-    <link rel="prev" title="Introduction to Data Science" href="01-intro-data-science.html" />
+    <link rel="next" title="Project Specification" href="../a0-project-specification.html" />
+    <link rel="prev" title="pandas Part I" href="03-data-manipulation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -175,13 +175,13 @@
 <li class="toctree-l1"><a class="reference internal" href="01-intro-data-science.html">Introduction to Data Science</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data exploration and visualization with Tableau (on Canvas)</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data exploration and visualization with Tableau</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="02-data-exploration.html">Data exploration and visualization with Tableau</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data manipulation with pandas</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="03-data-manipulation.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="04-data-manipulation-2.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
 <ul class="nav bd-sidenav">
@@ -244,7 +244,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/mosesyhc/de200-sp2024/blob/master/lectures/02-data-exploration.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de200-sp2024/blob/master/lectures/04-data-manipulation-2.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -275,7 +275,7 @@
       
       
       
-      <li><a href="../_sources/lectures/02-data-exploration.ipynb" target="_blank"
+      <li><a href="../_sources/lectures/04-data-manipulation-2.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -359,7 +359,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Data exploration and visualization with Tableau</h1>
+    <h1>pandas Part II</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -369,7 +369,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway">Final takeaway</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-data">Grouping data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-and-aggregating">Grouping and aggregating</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-general-recipe-for-grouping">A general recipe for grouping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-by-multiple-attributes">Grouping by multiple attributes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-by-a-custom-function">Aggregating by a custom function</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting">Pivoting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#melting">Melting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-3">Practice 3</a></li>
 </ul>
             </nav>
         </div>
@@ -381,17 +390,147 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="data-exploration-and-visualization-with-tableau">
-<h1>Data exploration and visualization with Tableau<a class="headerlink" href="#data-exploration-and-visualization-with-tableau" title="Link to this heading">#</a></h1>
-<p>Refer to <a class="reference internal" href="#canvas.northwestern.edu"><span class="xref myst">Canvas</span></a> for Tableau lectures.</p>
-<section id="final-takeaway">
-<h2>Final takeaway<a class="headerlink" href="#final-takeaway" title="Link to this heading">#</a></h2>
-<p>There is not one “correct” way of exploring and presenting a data set, especially a complex data set.  However, good data visualization often share the following features (Spiegelhalter, 2019):</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="pandas-part-ii">
+<h1><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II<a class="headerlink" href="#pandas-part-ii" title="Link to this heading">#</a></h1>
+<p>This document continues to cover data manipulation with <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, including aggregation, reorganizing, and merging data.</p>
+<section id="grouping-data">
+<h2>Grouping data<a class="headerlink" href="#grouping-data" title="Link to this heading">#</a></h2>
+<p>Grouping together that are in the same category to aggregate over rows in each category.</p>
+<p>Useful in</p>
+<ul class="simple">
+<li><p>performing large operations, and</p></li>
+<li><p>summarizing trends in a dataset.</p></li>
+</ul>
+<p>Say we have a dataset with baby naming frequency throughout the years.  Perhaps we are first interested in</p>
+<ul class="simple">
+<li><p>how many babies are born in each year? (Good indicator of societal confidence..)</p></li>
+</ul>
+<figure class="align-default" id="pandas-group">
+<a class="reference internal image-reference" href="../_images/pandas-group-schema.png"><img alt="../_images/pandas-group-schema.png" src="../_images/pandas-group-schema.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Example of aggregation in <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <span id="id1">[<a class="reference internal" href="../99-reference.html#id2" title="Sam Lau, Joseph Gonzalez, and Deborah Nolan. Learning Data Science. &quot; O'Reilly Media, Inc.&quot;, 2023.">Lau <em>et al.</em>, 2023</a>]</span></span><a class="headerlink" href="#pandas-group" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">baby</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/ssa-names.csv.zip&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of total babies</span>
+<span class="n">baby</span><span class="p">[</span><span class="s1">&#39;Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="grouping-and-aggregating">
+<h3>Grouping and aggregating<a class="headerlink" href="#grouping-and-aggregating" title="Link to this heading">#</a></h3>
+<p><strong>How many babies are born each year?</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts_by_year</span> <span class="o">=</span> <span class="n">baby</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)[</span><span class="s1">&#39;Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-general-recipe-for-grouping">
+<h3>A general recipe for grouping<a class="headerlink" href="#a-general-recipe-for-grouping" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">baby</span>                <span class="c1"># the dataframe</span>
+ <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>    <span class="c1"># column(s) to group</span>
+ <span class="p">[</span><span class="s1">&#39;Count&#39;</span><span class="p">]</span>           <span class="c1"># column(s) to aggregate</span>
+ <span class="o">.</span><span class="n">sum</span><span class="p">()</span>              <span class="c1"># how to aggregate</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="grouping-by-multiple-attributes">
+<h3>Grouping by multiple attributes<a class="headerlink" href="#grouping-by-multiple-attributes" title="Link to this heading">#</a></h3>
+<p><strong>How many female and male babies are born each year?</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts_by_year_and_sex</span> <span class="o">=</span> <span class="n">baby</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">])[</span><span class="s1">&#39;Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">counts_by_year_and_sex</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="aggregating-by-a-custom-function">
+<h3>Aggregating by a custom function<a class="headerlink" href="#aggregating-by-a-custom-function" title="Link to this heading">#</a></h3>
+<p><strong>What about number of unique names by year?</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">count_unique</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+<span class="n">unique_names_by_year</span> <span class="o">=</span> <span class="p">(</span><span class="n">baby</span>
+ <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+ <span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span>
+ <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">count_unique</span><span class="p">)</span> <span class="c1"># aggregate using the custom count_unique function</span>
+<span class="p">)</span>
+<span class="n">unique_names_by_year</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="pivoting">
+<h2>Pivoting<a class="headerlink" href="#pivoting" title="Link to this heading">#</a></h2>
+<p>Pivoting is one way to organize and present data, by arranging the results of a group and aggregation when grouping with two columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf_pivot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">baby</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span>   <span class="c1"># Column to turn into new index</span>
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">,</span>  <span class="c1"># Column to turn into new columns</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;Count&#39;</span><span class="p">,</span> <span class="c1"># Column to aggregate for values</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>    <span class="c1"># Aggregation function</span>
+<span class="n">mf_pivot</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="melting">
+<h2>Melting<a class="headerlink" href="#melting" title="Link to this heading">#</a></h2>
+<p>Melting is the “reverse” of pivoting, transforming <em>wide</em> tables into <em>long</em> tables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf_long</span> <span class="o">=</span> <span class="n">mf_pivot</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span>
+    <span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="c1"># column that uniquely identifies a row (can be multiple)</span>
+    <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="c1"># name for the new column created by melting</span>
+    <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Count&#39;</span> <span class="c1"># name for new column containing values from melted columns</span>
+<span class="p">)</span>
+<span class="n">mf_long</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Why do we need</em> <code class="docutils literal notranslate"><span class="pre">reset_index()</span></code>?</p>
+</section>
+<section id="practice-3">
+<h2>Practice 3<a class="headerlink" href="#practice-3" title="Link to this heading">#</a></h2>
+<p>Using the meteorite data from the <code class="docutils literal notranslate"><span class="pre">Meteorite_Landings.csv</span></code> file,</p>
 <ol class="arabic simple">
-<li><p>It contains reliable information.</p></li>
-<li><p>The design has been chosen so that relevant patterns become noticeable.</p></li>
-<li><p>It is presented in an attractive manner, but appearance should not get in the way of honesty, clarity and depth.</p></li>
-<li><p>When appropriate, it is organized in a way that enables some exploration.</p></li>
+<li><p>create a pivot table that shows for each year</p>
+<ul class="simple">
+<li><p>the number of meteorites, and</p></li>
+<li><p>the 95th percentile of meteorite mass.</p></li>
+</ul>
+</li>
+<li><p>create a pivot table to compare for each year</p>
+<ul class="simple">
+<li><p>the 5%, 25%, 50%, 75%, and 95% percentile of the mass column for the meteorites that were found versus observed falling.</p></li>
+</ul>
+</li>
+<li><p>melt the two tables above to create a <em>long</em>-format table.</p></li>
 </ol>
 </section>
 </section>
@@ -427,20 +566,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="01-intro-data-science.html"
+       href="03-data-manipulation.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Introduction to Data Science</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I</p>
       </div>
     </a>
     <a class="right-next"
-       href="03-data-manipulation.html"
+       href="../a0-project-specification.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I</p>
+        <p class="prev-next-title">Project Specification</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -460,7 +599,16 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway">Final takeaway</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-data">Grouping data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-and-aggregating">Grouping and aggregating</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-general-recipe-for-grouping">A general recipe for grouping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-by-multiple-attributes">Grouping by multiple attributes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-by-a-custom-function">Aggregating by a custom function</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting">Pivoting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#melting">Melting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-3">Practice 3</a></li>
 </ul>
   </nav></div>
 

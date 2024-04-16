@@ -376,6 +376,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-by-a-custom-function">Aggregating by a custom function</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apply">Apply</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-word-about-apply-effectiveness">Quick word about <code class="docutils literal notranslate"><span class="pre">apply()</span></code> effectiveness</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting">Pivoting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#melting">Melting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-3">Practice 3</a></li>
@@ -446,6 +450,9 @@ document.write(`
  <span class="p">[</span><span class="s1">&#39;Count&#39;</span><span class="p">]</span>           <span class="c1"># column(s) to aggregate</span>
  <span class="o">.</span><span class="n">sum</span><span class="p">()</span>              <span class="c1"># how to aggregate</span>
 <span class="p">)</span>
+
+<span class="c1"># general form</span>
+<span class="n">dataframe</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">aggregation_function</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -481,9 +488,57 @@ document.write(`
 </div>
 </section>
 </section>
+<section id="apply">
+<h2>Apply<a class="headerlink" href="#apply" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Series.apply()</span></code> function applies an arbitrary function on each row entry.</p>
+<p><strong>Retrieve first letter of name</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_first_letter</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># assumes string input</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="n">baby</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span>
+<span class="n">names</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_first_letter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0          M
+1          V
+2          E
+3          R
+4          M
+          ..
+6311499    Z
+6311500    Z
+6311501    Z
+6311502    Z
+6311503    Z
+Name: Name, Length: 6311504, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Number of letters in name</strong></p>
+<section id="quick-word-about-apply-effectiveness">
+<h3>Quick word about <code class="docutils literal notranslate"><span class="pre">apply()</span></code> effectiveness<a class="headerlink" href="#quick-word-about-apply-effectiveness" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">apply()</span></code> function is flexible, accommodating custom operations.  But it is <em>slow</em>.</p>
+</section>
+</section>
 <section id="pivoting">
 <h2>Pivoting<a class="headerlink" href="#pivoting" title="Link to this heading">#</a></h2>
 <p>Pivoting is one way to organize and present data, by arranging the results of a group and aggregation when grouping with two columns.</p>
+<figure class="align-default" id="pandas-pivot">
+<a class="reference internal image-reference" href="../_images/pandas-pivot.png"><img alt="../_images/pandas-pivot.png" src="../_images/pandas-pivot.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Example of pivoting in <code class="docutils literal notranslate"><span class="pre">pandas</span></code> (Data 100)</span><a class="headerlink" href="#pandas-pivot" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf_pivot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
@@ -496,6 +551,94 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Sex</th>
+      <th>F</th>
+      <th>M</th>
+    </tr>
+    <tr>
+      <th>Year</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1910</th>
+      <td>352089</td>
+      <td>164223</td>
+    </tr>
+    <tr>
+      <th>1911</th>
+      <td>372382</td>
+      <td>193441</td>
+    </tr>
+    <tr>
+      <th>1912</th>
+      <td>504299</td>
+      <td>383704</td>
+    </tr>
+    <tr>
+      <th>1913</th>
+      <td>566973</td>
+      <td>461606</td>
+    </tr>
+    <tr>
+      <th>1914</th>
+      <td>696907</td>
+      <td>596441</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2017</th>
+      <td>1405262</td>
+      <td>1606186</td>
+    </tr>
+    <tr>
+      <th>2018</th>
+      <td>1382391</td>
+      <td>1570957</td>
+    </tr>
+    <tr>
+      <th>2019</th>
+      <td>1360299</td>
+      <td>1545678</td>
+    </tr>
+    <tr>
+      <th>2020</th>
+      <td>1303090</td>
+      <td>1478890</td>
+    </tr>
+    <tr>
+      <th>2021</th>
+      <td>1320095</td>
+      <td>1492780</td>
+    </tr>
+  </tbody>
+</table>
+<p>112 rows × 2 columns</p>
+</div></div></div>
 </div>
 </section>
 <section id="melting">
@@ -517,8 +660,11 @@ document.write(`
 </section>
 <section id="practice-3">
 <h2>Practice 3<a class="headerlink" href="#practice-3" title="Link to this heading">#</a></h2>
+<p>Using the baby names data, find the names with most occurrences in each year for both sexes.</p>
 <p>Using the meteorite data from the <code class="docutils literal notranslate"><span class="pre">Meteorite_Landings.csv</span></code> file,</p>
 <ol class="arabic simple">
+<li><p>use <code class="docutils literal notranslate"><span class="pre">groupby</span></code> to examine the number of meteors recorded each year.</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">groupby</span></code> to find the heaviest meteorite from each year and report its name and mass.</p></li>
 <li><p>create a pivot table that shows for each year</p>
 <ul class="simple">
 <li><p>the number of meteorites, and</p></li>
@@ -532,6 +678,41 @@ document.write(`
 </li>
 <li><p>melt the two tables above to create a <em>long</em>-format table.</p></li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">meteor</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/Meteorite_Landings.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">meteor</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 45716 entries, 0 to 45715
+Data columns (total 10 columns):
+ #   Column       Non-Null Count  Dtype  
+---  ------       --------------  -----  
+ 0   name         45716 non-null  object 
+ 1   id           45716 non-null  int64  
+ 2   nametype     45716 non-null  object 
+ 3   recclass     45716 non-null  object 
+ 4   mass (g)     45585 non-null  float64
+ 5   fall         45716 non-null  object 
+ 6   year         45425 non-null  float64
+ 7   reclat       38401 non-null  float64
+ 8   reclong      38401 non-null  float64
+ 9   GeoLocation  38401 non-null  object 
+dtypes: float64(4), int64(1), object(5)
+memory usage: 3.5+ MB
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 
@@ -604,6 +785,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-general-recipe-for-grouping">A general recipe for grouping</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-by-multiple-attributes">Grouping by multiple attributes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-by-a-custom-function">Aggregating by a custom function</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apply">Apply</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-word-about-apply-effectiveness">Quick word about <code class="docutils literal notranslate"><span class="pre">apply()</span></code> effectiveness</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting">Pivoting</a></li>

@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/04-data-manipulation-2';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Project Specification" href="../a0-project-specification.html" />
+    <link rel="next" title="pandas Part III" href="05-data-manipulation-3-join.html" />
     <link rel="prev" title="pandas Part I" href="03-data-manipulation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -182,6 +182,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="03-data-manipulation.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-data-manipulation-3-join.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
 <ul class="nav bd-sidenav">
@@ -507,27 +508,50 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0          M
-1          V
-2          E
-3          R
-4          M
-          ..
-6311499    Z
-6311500    Z
-6311501    Z
-6311502    Z
-6311503    Z
-Name: Name, Length: 6311504, dtype: object
-</pre></div>
-</div>
-</div>
 </div>
 <p><strong>Number of letters in name</strong></p>
 <section id="quick-word-about-apply-effectiveness">
 <h3>Quick word about <code class="docutils literal notranslate"><span class="pre">apply()</span></code> effectiveness<a class="headerlink" href="#quick-word-about-apply-effectiveness" title="Link to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">apply()</span></code> function is flexible, accommodating custom operations.  But it is <em>slow</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">does_nothing</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">year</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">years</span> <span class="o">=</span> <span class="n">baby</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> years / 10 * 10
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>85.8 ms ± 8.66 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> years.apply(does_nothing)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.53 s ± 142 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="pivoting">
@@ -551,94 +575,6 @@ Name: Name, Length: 6311504, dtype: object
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Sex</th>
-      <th>F</th>
-      <th>M</th>
-    </tr>
-    <tr>
-      <th>Year</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>1910</th>
-      <td>352089</td>
-      <td>164223</td>
-    </tr>
-    <tr>
-      <th>1911</th>
-      <td>372382</td>
-      <td>193441</td>
-    </tr>
-    <tr>
-      <th>1912</th>
-      <td>504299</td>
-      <td>383704</td>
-    </tr>
-    <tr>
-      <th>1913</th>
-      <td>566973</td>
-      <td>461606</td>
-    </tr>
-    <tr>
-      <th>1914</th>
-      <td>696907</td>
-      <td>596441</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>2017</th>
-      <td>1405262</td>
-      <td>1606186</td>
-    </tr>
-    <tr>
-      <th>2018</th>
-      <td>1382391</td>
-      <td>1570957</td>
-    </tr>
-    <tr>
-      <th>2019</th>
-      <td>1360299</td>
-      <td>1545678</td>
-    </tr>
-    <tr>
-      <th>2020</th>
-      <td>1303090</td>
-      <td>1478890</td>
-    </tr>
-    <tr>
-      <th>2021</th>
-      <td>1320095</td>
-      <td>1492780</td>
-    </tr>
-  </tbody>
-</table>
-<p>112 rows × 2 columns</p>
-</div></div></div>
 </div>
 </section>
 <section id="melting">
@@ -691,27 +627,6 @@ Name: Name, Length: 6311504, dtype: object
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 45716 entries, 0 to 45715
-Data columns (total 10 columns):
- #   Column       Non-Null Count  Dtype  
----  ------       --------------  -----  
- 0   name         45716 non-null  object 
- 1   id           45716 non-null  int64  
- 2   nametype     45716 non-null  object 
- 3   recclass     45716 non-null  object 
- 4   mass (g)     45585 non-null  float64
- 5   fall         45716 non-null  object 
- 6   year         45425 non-null  float64
- 7   reclat       38401 non-null  float64
- 8   reclong      38401 non-null  float64
- 9   GeoLocation  38401 non-null  object 
-dtypes: float64(4), int64(1), object(5)
-memory usage: 3.5+ MB
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 </section>
@@ -756,11 +671,11 @@ memory usage: 3.5+ MB
       </div>
     </a>
     <a class="right-next"
-       href="../a0-project-specification.html"
+       href="05-data-manipulation-3-join.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Project Specification</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

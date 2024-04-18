@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction to Data Science &#8212; DATA_ENG 200 Foundations of Data Science</title>
+    <title>pandas Part III &#8212; DATA_ENG 200 Foundations of Data Science</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/01-intro-data-science';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/05-data-manipulation-3-join';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Data exploration and visualization with Tableau" href="02-data-exploration.html" />
-    <link rel="prev" title="DATA_ENG 200: Foundations of Data Science" href="../00-syllabus.html" />
+    <link rel="next" title="Project Specification" href="../a0-project-specification.html" />
+    <link rel="prev" title="pandas Part II" href="04-data-manipulation-2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -171,18 +171,18 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction to Data Science</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-intro-data-science.html">Introduction to Data Science</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data exploration and visualization with Tableau (on Canvas)</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="02-data-exploration.html">Data exploration and visualization with Tableau</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data manipulation with pandas</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="03-data-manipulation.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04-data-manipulation-2.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-data-manipulation-3-join.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
 <ul class="nav bd-sidenav">
@@ -245,7 +245,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/mosesyhc/de200-sp2024/blob/master/lectures/01-intro-data-science.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de200-sp2024/blob/master/lectures/05-data-manipulation-3-join.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -276,7 +276,7 @@
       
       
       
-      <li><a href="../_sources/lectures/01-intro-data-science.ipynb" target="_blank"
+      <li><a href="../_sources/lectures/05-data-manipulation-3-join.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -360,7 +360,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Introduction to Data Science</h1>
+    <h1>pandas Part III</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -370,9 +370,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pillars-of-data-science">“Pillars” of Data Science</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-class-fits-into-your-curriculum">How this class fits into your curriculum</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#who-are-you">Who are you?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-idea-of-relational-databases">Basic idea of relational databases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-truncated-example-with-healthcare-data-mimic-iii">A truncated example with healthcare data (MIMIC-III)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coded-example-with-baby-names">Coded example with baby names</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-4">Practice 4</a></li>
 </ul>
             </nav>
         </div>
@@ -384,36 +385,109 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-data-science">
-<h1>Introduction to Data Science<a class="headerlink" href="#introduction-to-data-science" title="Link to this heading">#</a></h1>
-<figure class="align-default" id="ds-ai">
-<a class="reference internal image-reference" href="../_images/ds-ai.jpeg"><img alt="../_images/ds-ai.jpeg" src="../_images/ds-ai.jpeg" style="width: 80%;" /></a>
+  <section class="tex2jax_ignore mathjax_ignore" id="pandas-part-iii">
+<h1><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III<a class="headerlink" href="#pandas-part-iii" title="Link to this heading">#</a></h1>
+<p>This document introduces the joining of multiple datasets in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+<section id="basic-idea-of-relational-databases">
+<h2>Basic idea of relational databases<a class="headerlink" href="#basic-idea-of-relational-databases" title="Link to this heading">#</a></h2>
+<p>In many occasions data do not reside in one single table.  Instead, they reside in multiple tables connected by identifiers, because of</p>
+<ul class="simple">
+<li><p>storage efficiency: the same data do not have to be stored multiple times.</p></li>
+<li><p>data consistency: multiple copies of data are prone to inconsistency.</p></li>
+<li><p>standard access: all <em>relational databases</em> offer a similar way of accessing the data.</p></li>
+</ul>
+<p>In CS 217, you will dive into the design of relational databases and the language to access them, Structured Query Language (SQL).</p>
+</section>
+<section id="a-truncated-example-with-healthcare-data-mimic-iii">
+<h2>A truncated example with healthcare data (<a class="reference external" href="https://mimic.mit.edu/docs/iii/">MIMIC-III</a>)<a class="headerlink" href="#a-truncated-example-with-healthcare-data-mimic-iii" title="Link to this heading">#</a></h2>
+<figure class="align-default" id="mimic-erd">
+<a class="reference internal image-reference" href="../_images/table-join-mimic.png"><img alt="../_images/table-join-mimic.png" src="../_images/table-join-mimic.png" style="width: 80%;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Generated by AI.</span><a class="headerlink" href="#ds-ai" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Example of a relational database (MIMIC III)</span><a class="headerlink" href="#mimic-erd" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<section id="pillars-of-data-science">
-<h2>“Pillars” of Data Science<a class="headerlink" href="#pillars-of-data-science" title="Link to this heading">#</a></h2>
-<p>Data Science is a very broad discipline, but generally the field is guided by four essential pillars:</p>
-<ul class="simple">
-<li><p>Domain knowledge</p></li>
-<li><p>Mathematics and Statistics</p></li>
-<li><p>Computer Science</p></li>
-<li><p>Communications</p></li>
-</ul>
 </section>
-<section id="how-this-class-fits-into-your-curriculum">
-<h2>How this class fits into your curriculum<a class="headerlink" href="#how-this-class-fits-into-your-curriculum" title="Link to this heading">#</a></h2>
-<p><a class="reference external" href="https://www.mccormick.northwestern.edu/data-science-engineering/curriculum/">Data Science and Engineering Minor curriculum</a></p>
+<section id="coded-example-with-baby-names">
+<h2>Coded example with baby names<a class="headerlink" href="#coded-example-with-baby-names" title="Link to this heading">#</a></h2>
+<p><span id="id1">Tzioumis [<a class="reference internal" href="../99-reference.html#id5" title="Konstantinos Tzioumis. Demographic aspects of first names. Scientific data, 5(1):1–9, 2018.">2018</a>]</span> has studied how often various first names are used by people of certain racial and Hispanic origin groups.<br />
+The data contain the following information (columns):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">baby</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/ssa-names.csv.zip&#39;</span><span class="p">)</span>
+<span class="n">names_demo_meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;../data/firstnames.xlsx&#39;</span><span class="p">)</span>
+<span class="n">names_demo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;../data/firstnames.xlsx&#39;</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">names_demo_meta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Are the most popular baby names used by people of a variety of ethnic groups?</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data cleanup for baby names</span>
+<span class="n">baby</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">baby</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">baby</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">baby</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data cleanup for demographics info</span>
+<span class="n">names_demo</span><span class="p">[</span><span class="s1">&#39;firstname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">names_demo</span><span class="p">[</span><span class="s1">&#39;firstname&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">most_occurrence_names</span> <span class="o">=</span> <span class="n">baby</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">baby</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">])[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">most_occurrence_names</span> <span class="o">=</span> <span class="n">most_occurrence_names</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">most_occurrence_names</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">names_demo</span><span class="p">,</span>           <span class="c1"># which two datasets to join</span>
+                            <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span>          <span class="c1"># method of join</span>
+                            <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>       <span class="c1"># which column (key) to connect with in the first dataset</span>
+                            <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;firstname&#39;</span><span class="p">)</span> <span class="c1"># which column (key) to connect with in the second dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Comparison to a query using SQL (CS 217)</strong></p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">most_occurrence_names</span><span class="w"> </span>
+<span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">names_demo</span>
+<span class="k">ON</span><span class="w"> </span><span class="n">most_occurrence_names</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">names_demo</span><span class="p">.</span><span class="n">firstname</span>
+</pre></div>
+</div>
+<p><strong>Many types of “joining” two tables</strong></p>
+<figure class="align-default" id="sql-join">
+<a class="reference internal image-reference" href="../_images/table-join-sql.png"><img alt="../_images/table-join-sql.png" src="../_images/table-join-sql.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Types of JOIN (merge) statements (source: Taylor Brownlow)</span><a class="headerlink" href="#sql-join" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 </section>
-<section id="who-are-you">
-<h2>Who are you?<a class="headerlink" href="#who-are-you" title="Link to this heading">#</a></h2>
-<p>Tell us a little about yourself:</p>
+<section id="practice-4">
+<h2>Practice 4<a class="headerlink" href="#practice-4" title="Link to this heading">#</a></h2>
+<p>Using the MIMIC-III demo dataset (<code class="docutils literal notranslate"><span class="pre">PATIENTS.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">ADMISSIONS.csv</span></code>),</p>
 <ol class="arabic simple">
-<li><p>Your name</p></li>
-<li><p>Your major</p></li>
-<li><p>What is an example of problems you want to solve?</p></li>
-<li><p>What do you expect to get out from this class?</p></li>
+<li><p>Create a table that includes all admissions with the corresponding patient information.  (<em>Think about which way to join/merge.</em>)</p></li>
+<li><p>Report the number of admissions for each patient.</p></li>
+<li><p>Report the number of admissions grouped by gender and ethnicity.</p></li>
 </ol>
 </section>
 </section>
@@ -449,20 +523,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../00-syllabus.html"
+       href="04-data-manipulation-2.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">DATA_ENG 200: Foundations of Data Science</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II</p>
       </div>
     </a>
     <a class="right-next"
-       href="02-data-exploration.html"
+       href="../a0-project-specification.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Data exploration and visualization with Tableau</p>
+        <p class="prev-next-title">Project Specification</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -482,9 +556,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pillars-of-data-science">“Pillars” of Data Science</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-class-fits-into-your-curriculum">How this class fits into your curriculum</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#who-are-you">Who are you?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-idea-of-relational-databases">Basic idea of relational databases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-truncated-example-with-healthcare-data-mimic-iii">A truncated example with healthcare data (MIMIC-III)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coded-example-with-baby-names">Coded example with baby names</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-4">Practice 4</a></li>
 </ul>
   </nav></div>
 

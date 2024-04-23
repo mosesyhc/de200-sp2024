@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pandas Part III &#8212; DATA_ENG 200 Foundations of Data Science</title>
+    <title>pandas Part III - Merging and joining datasets &#8212; DATA_ENG 200 Foundations of Data Science</title>
   
   
   
@@ -60,8 +60,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/05-data-manipulation-3-join';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Project Specification" href="../a0-project-specification.html" />
-    <link rel="prev" title="pandas Part II" href="04-data-manipulation-2.html" />
+    <link rel="next" title="Handling text with string methods" href="06-text-wrangling.html" />
+    <link rel="prev" title="pandas Part II - Group and aggregation" href="04-data-manipulation-2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -180,9 +180,10 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data manipulation with pandas</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="03-data-manipulation.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="04-data-manipulation-2.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-data-manipulation.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I - Basic usage, indexing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-data-manipulation-2.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II - Group and aggregation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III - Merging and joining datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-text-wrangling.html">Handling text with string methods</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
 <ul class="nav bd-sidenav">
@@ -360,7 +361,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>pandas Part III</h1>
+    <h1>pandas Part III - Merging and joining datasets</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -385,8 +386,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="pandas-part-iii">
-<h1><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III<a class="headerlink" href="#pandas-part-iii" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="pandas-part-iii-merging-and-joining-datasets">
+<h1><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III - Merging and joining datasets<a class="headerlink" href="#pandas-part-iii-merging-and-joining-datasets" title="Link to this heading">#</a></h1>
 <p>This document introduces the joining of multiple datasets in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
 <section id="basic-idea-of-relational-databases">
 <h2>Basic idea of relational databases<a class="headerlink" href="#basic-idea-of-relational-databases" title="Link to this heading">#</a></h2>
@@ -429,8 +430,170 @@ The data contain the following information (columns):</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>firstname</td>
+      <td>First name</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>obs</td>
+      <td>Number of occurrences in the combined mortgage datasets</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>pcthispanic</td>
+      <td>Percent Hispanic or Latino</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>pctwhite</td>
+      <td>Percent Non-Hispanic White</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>pctblack</td>
+      <td>Percent Non-Hispanic Black or African American</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>pctapi</td>
+      <td>Percent Non-Hispanic Asian or Native Hawaiian or Other Pacific Islander</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>pctaian</td>
+      <td>Percent Non-Hispanic American Indian or Alaska Native</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>pct2prace</td>
+      <td>Percent Non-Hispanic Two or More Races</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p><strong>Are the most popular baby names used by people of a variety of ethnic groups?</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">names_demo</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>firstname</th>
+      <th>obs</th>
+      <th>pcthispanic</th>
+      <th>pctwhite</th>
+      <th>pctblack</th>
+      <th>pctapi</th>
+      <th>pctaian</th>
+      <th>pct2prace</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AARON</td>
+      <td>3646</td>
+      <td>2.880</td>
+      <td>91.607</td>
+      <td>3.264</td>
+      <td>2.057</td>
+      <td>0.055</td>
+      <td>0.137</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ABBAS</td>
+      <td>59</td>
+      <td>0.000</td>
+      <td>71.186</td>
+      <td>3.390</td>
+      <td>25.424</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ABBEY</td>
+      <td>57</td>
+      <td>0.000</td>
+      <td>96.491</td>
+      <td>3.509</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ABBIE</td>
+      <td>74</td>
+      <td>1.351</td>
+      <td>95.946</td>
+      <td>2.703</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ABBY</td>
+      <td>262</td>
+      <td>1.527</td>
+      <td>94.656</td>
+      <td>1.527</td>
+      <td>2.290</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data cleanup for baby names</span>
@@ -450,11 +613,202 @@ The data contain the following information (columns):</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baby</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>state</th>
+      <th>sex</th>
+      <th>year</th>
+      <th>name</th>
+      <th>count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>VA</td>
+      <td>F</td>
+      <td>1910</td>
+      <td>mary</td>
+      <td>848</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>VA</td>
+      <td>F</td>
+      <td>1910</td>
+      <td>virginia</td>
+      <td>270</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>VA</td>
+      <td>F</td>
+      <td>1910</td>
+      <td>elizabeth</td>
+      <td>254</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>VA</td>
+      <td>F</td>
+      <td>1910</td>
+      <td>ruth</td>
+      <td>218</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>VA</td>
+      <td>F</td>
+      <td>1910</td>
+      <td>margaret</td>
+      <td>209</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">most_occurrence_names</span> <span class="o">=</span> <span class="n">baby</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">baby</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">])[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">most_occurrence_names</span> <span class="o">=</span> <span class="n">most_occurrence_names</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">most_occurrence_names</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>name</th>
+      <th>sex</th>
+      <th>count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1910</td>
+      <td>mary</td>
+      <td>F</td>
+      <td>2913</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1910</td>
+      <td>john</td>
+      <td>M</td>
+      <td>1326</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1911</td>
+      <td>mary</td>
+      <td>F</td>
+      <td>3188</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1911</td>
+      <td>john</td>
+      <td>M</td>
+      <td>1672</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1912</td>
+      <td>mary</td>
+      <td>F</td>
+      <td>4106</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>219</th>
+      <td>2019</td>
+      <td>noah</td>
+      <td>M</td>
+      <td>2677</td>
+    </tr>
+    <tr>
+      <th>220</th>
+      <td>2020</td>
+      <td>olivia</td>
+      <td>F</td>
+      <td>2350</td>
+    </tr>
+    <tr>
+      <th>221</th>
+      <td>2020</td>
+      <td>noah</td>
+      <td>M</td>
+      <td>2625</td>
+    </tr>
+    <tr>
+      <th>222</th>
+      <td>2021</td>
+      <td>olivia</td>
+      <td>F</td>
+      <td>2395</td>
+    </tr>
+    <tr>
+      <th>223</th>
+      <td>2021</td>
+      <td>noah</td>
+      <td>M</td>
+      <td>2591</td>
+    </tr>
+  </tbody>
+</table>
+<p>224 rows × 4 columns</p>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -528,15 +882,15 @@ The data contain the following information (columns):</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II - Group and aggregation</p>
       </div>
     </a>
     <a class="right-next"
-       href="../a0-project-specification.html"
+       href="06-text-wrangling.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Project Specification</p>
+        <p class="prev-next-title">Handling text with string methods</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

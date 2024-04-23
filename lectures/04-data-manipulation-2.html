@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pandas Part II &#8212; DATA_ENG 200 Foundations of Data Science</title>
+    <title>pandas Part II - Group and aggregation &#8212; DATA_ENG 200 Foundations of Data Science</title>
   
   
   
@@ -60,8 +60,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/04-data-manipulation-2';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pandas Part III" href="05-data-manipulation-3-join.html" />
-    <link rel="prev" title="pandas Part I" href="03-data-manipulation.html" />
+    <link rel="next" title="pandas Part III - Merging and joining datasets" href="05-data-manipulation-3-join.html" />
+    <link rel="prev" title="pandas Part I - Basic usage, indexing" href="03-data-manipulation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -180,9 +180,10 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data manipulation with pandas</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="03-data-manipulation.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-data-manipulation-3-join.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-data-manipulation.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I - Basic usage, indexing</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II - Group and aggregation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-data-manipulation-3-join.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III - Merging and joining datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-text-wrangling.html">Handling text with string methods</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
 <ul class="nav bd-sidenav">
@@ -360,7 +361,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>pandas Part II</h1>
+    <h1>pandas Part II - Group and aggregation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -395,9 +396,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="pandas-part-ii">
-<h1><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II<a class="headerlink" href="#pandas-part-ii" title="Link to this heading">#</a></h1>
-<p>This document continues to cover data manipulation with <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, including aggregation, reorganizing, and merging data.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="pandas-part-ii-group-and-aggregation">
+<h1><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II - Group and aggregation<a class="headerlink" href="#pandas-part-ii-group-and-aggregation" title="Link to this heading">#</a></h1>
+<p>This document continues to cover data manipulation with <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, including grouping, aggregating, and reorganizing data.</p>
 <section id="grouping-data">
 <h2>Grouping data<a class="headerlink" href="#grouping-data" title="Link to this heading">#</a></h2>
 <p>Grouping together that are in the same category to aggregate over rows in each category.</p>
@@ -597,6 +598,406 @@ document.write(`
 <section id="practice-3">
 <h2>Practice 3<a class="headerlink" href="#practice-3" title="Link to this heading">#</a></h2>
 <p>Using the baby names data, find the names with most occurrences in each year for both sexes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baby</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 6311504 entries, 0 to 6311503
+Data columns (total 5 columns):
+ #   Column  Dtype 
+---  ------  ----- 
+ 0   State   object
+ 1   Sex     object
+ 2   Year    int64 
+ 3   Name    object
+ 4   Count   int64 
+dtypes: int64(2), object(3)
+memory usage: 240.8+ MB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First attempt: most occurred names over all states for each year and sex</span>
+<span class="k">def</span> <span class="nf">max_count_name</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
+    <span class="n">max_index</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">baby</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">max_index</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">]</span>
+
+<span class="n">baby</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">])[</span><span class="s1">&#39;Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">max_count_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Year  Sex
+1910  F        Mary
+      M        John
+1911  F        Mary
+      M        John
+1912  F        Mary
+              ...  
+2019  M        Noah
+2020  F      Olivia
+      M        Noah
+2021  F      Olivia
+      M        Noah
+Name: Count, Length: 224, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baby</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">baby</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">])[</span><span class="s1">&#39;Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>State</th>
+      <th>Sex</th>
+      <th>Year</th>
+      <th>Name</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4917850</th>
+      <td>PA</td>
+      <td>F</td>
+      <td>1910</td>
+      <td>Mary</td>
+      <td>2913</td>
+    </tr>
+    <tr>
+      <th>5036503</th>
+      <td>PA</td>
+      <td>M</td>
+      <td>1910</td>
+      <td>John</td>
+      <td>1326</td>
+    </tr>
+    <tr>
+      <th>4918257</th>
+      <td>PA</td>
+      <td>F</td>
+      <td>1911</td>
+      <td>Mary</td>
+      <td>3188</td>
+    </tr>
+    <tr>
+      <th>5036756</th>
+      <td>PA</td>
+      <td>M</td>
+      <td>1911</td>
+      <td>John</td>
+      <td>1672</td>
+    </tr>
+    <tr>
+      <th>4918688</th>
+      <td>PA</td>
+      <td>F</td>
+      <td>1912</td>
+      <td>Mary</td>
+      <td>4106</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>6302995</th>
+      <td>CA</td>
+      <td>M</td>
+      <td>2019</td>
+      <td>Noah</td>
+      <td>2677</td>
+    </tr>
+    <tr>
+      <th>6139273</th>
+      <td>CA</td>
+      <td>F</td>
+      <td>2020</td>
+      <td>Olivia</td>
+      <td>2350</td>
+    </tr>
+    <tr>
+      <th>6305858</th>
+      <td>CA</td>
+      <td>M</td>
+      <td>2020</td>
+      <td>Noah</td>
+      <td>2625</td>
+    </tr>
+    <tr>
+      <th>6142887</th>
+      <td>CA</td>
+      <td>F</td>
+      <td>2021</td>
+      <td>Olivia</td>
+      <td>2395</td>
+    </tr>
+    <tr>
+      <th>6308651</th>
+      <td>CA</td>
+      <td>M</td>
+      <td>2021</td>
+      <td>Noah</td>
+      <td>2591</td>
+    </tr>
+  </tbody>
+</table>
+<p>224 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Second attempt: finding the total number of babies by year, sex, and name</span>
+<span class="c1"># then group to find the most occurred name in each year for each sex</span>
+<span class="n">baby_allstates</span> <span class="o">=</span> <span class="n">baby</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">])[</span><span class="s1">&#39;Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">baby_allstates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">baby_allstates</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">])[</span><span class="s1">&#39;Count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Sex</th>
+      <th>Name</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>724</th>
+      <td>1910</td>
+      <td>F</td>
+      <td>Mary</td>
+      <td>22848</td>
+    </tr>
+    <tr>
+      <th>1444</th>
+      <td>1910</td>
+      <td>M</td>
+      <td>John</td>
+      <td>11450</td>
+    </tr>
+    <tr>
+      <th>2489</th>
+      <td>1911</td>
+      <td>F</td>
+      <td>Mary</td>
+      <td>24390</td>
+    </tr>
+    <tr>
+      <th>3245</th>
+      <td>1911</td>
+      <td>M</td>
+      <td>John</td>
+      <td>13446</td>
+    </tr>
+    <tr>
+      <th>4439</th>
+      <td>1912</td>
+      <td>F</td>
+      <td>Mary</td>
+      <td>32304</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>631732</th>
+      <td>2019</td>
+      <td>M</td>
+      <td>Liam</td>
+      <td>20578</td>
+    </tr>
+    <tr>
+      <th>637395</th>
+      <td>2020</td>
+      <td>F</td>
+      <td>Olivia</td>
+      <td>17641</td>
+    </tr>
+    <tr>
+      <th>641096</th>
+      <td>2020</td>
+      <td>M</td>
+      <td>Liam</td>
+      <td>19777</td>
+    </tr>
+    <tr>
+      <th>646827</th>
+      <td>2021</td>
+      <td>F</td>
+      <td>Olivia</td>
+      <td>17728</td>
+    </tr>
+    <tr>
+      <th>650600</th>
+      <td>2021</td>
+      <td>M</td>
+      <td>Liam</td>
+      <td>20272</td>
+    </tr>
+  </tbody>
+</table>
+<p>224 rows × 4 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This attempt does NOT work, because max() applies to the columns &#39;Count&#39; and &#39;Name&#39; independently.</span>
+<span class="n">baby_allstates</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">])[[</span><span class="s1">&#39;Count&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Count</th>
+      <th>Name</th>
+    </tr>
+    <tr>
+      <th>Year</th>
+      <th>Sex</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">1910</th>
+      <th>F</th>
+      <td>22848</td>
+      <td>Zula</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>11450</td>
+      <td>Zennie</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">1911</th>
+      <th>F</th>
+      <td>24390</td>
+      <td>Zula</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>13446</td>
+      <td>Zeb</td>
+    </tr>
+    <tr>
+      <th>1912</th>
+      <th>F</th>
+      <td>32304</td>
+      <td>Zula</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2019</th>
+      <th>M</th>
+      <td>20578</td>
+      <td>Zyon</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2020</th>
+      <th>F</th>
+      <td>17641</td>
+      <td>Zyrah</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>19777</td>
+      <td>Zyon</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2021</th>
+      <th>F</th>
+      <td>17728</td>
+      <td>Zyra</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>20272</td>
+      <td>Zyrus</td>
+    </tr>
+  </tbody>
+</table>
+<p>224 rows × 2 columns</p>
+</div></div></div>
+</div>
 <p>Using the meteorite data from the <code class="docutils literal notranslate"><span class="pre">Meteorite_Landings.csv</span></code> file,</p>
 <ol class="arabic simple">
 <li><p>use <code class="docutils literal notranslate"><span class="pre">groupby</span></code> to examine the number of meteors recorded each year.</p></li>
@@ -627,6 +1028,113 @@ document.write(`
 </pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">pivot_table_3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">meteor</span><span class="p">,</span>
+                               <span class="n">index</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+                               <span class="n">values</span><span class="o">=</span><span class="s1">&#39;mass (g)&#39;</span><span class="p">,</span>
+                               <span class="n">aggfunc</span><span class="o">=</span><span class="p">[</span><span class="nb">len</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">)])</span>
+<span class="n">pivot_table_3</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;num. meteorites&#39;</span><span class="p">,</span> <span class="s1">&#39;95th percentile mass&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pivot_table_3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>num. meteorites</th>
+      <th>95th percentile mass</th>
+    </tr>
+    <tr>
+      <th>year</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>860.0</th>
+      <td>1</td>
+      <td>472.00</td>
+    </tr>
+    <tr>
+      <th>920.0</th>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1399.0</th>
+      <td>1</td>
+      <td>107000.00</td>
+    </tr>
+    <tr>
+      <th>1490.0</th>
+      <td>1</td>
+      <td>103.30</td>
+    </tr>
+    <tr>
+      <th>1491.0</th>
+      <td>1</td>
+      <td>127000.00</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2010.0</th>
+      <td>1005</td>
+      <td>2071.60</td>
+    </tr>
+    <tr>
+      <th>2011.0</th>
+      <td>713</td>
+      <td>3381.80</td>
+    </tr>
+    <tr>
+      <th>2012.0</th>
+      <td>234</td>
+      <td>3639.45</td>
+    </tr>
+    <tr>
+      <th>2013.0</th>
+      <td>11</td>
+      <td>50500.00</td>
+    </tr>
+    <tr>
+      <th>2101.0</th>
+      <td>1</td>
+      <td>55.00</td>
+    </tr>
+  </tbody>
+</table>
+<p>265 rows × 2 columns</p>
+</div></div></div>
 </div>
 </section>
 </section>
@@ -667,7 +1175,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I - Basic usage, indexing</p>
       </div>
     </a>
     <a class="right-next"
@@ -675,7 +1183,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III - Merging and joining datasets</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

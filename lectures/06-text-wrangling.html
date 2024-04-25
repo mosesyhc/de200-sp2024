@@ -441,6 +441,28 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    58. ALLERGEN TRAINING AS REQUIRED - Comments: ...
+2    10. ADEQUATE HANDWASHING SINKS PROPERLY SUPPLI...
+6    1. PERSON IN CHARGE PRESENT, DEMONSTRATES KNOW...
+7    37. FOOD PROPERLY LABELED; ORIGINAL CONTAINER ...
+9    3. MANAGEMENT, FOOD EMPLOYEE AND CONDITIONAL E...
+Name: Violations, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">violations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;58. ALLERGEN TRAINING AS REQUIRED - Comments: OBSERVED THE CERTIFIED FOOD MANAGER WITHOUT AN ALLERGEN TRAINING CERTIFICATE.  MANAGEMENT INSTRUCTED THAT ALL CERTIFIED FOOD MANAGERS MUST SHOW PROOF OF TRAINING. | 61. SUMMARY REPORT DISPLAYED AND VISIBLE TO THE PUBLIC - Comments: THE PREVIOUS INSPECTION REPORT SUMMARY FROM 10/25/23 WAS NOT POSTED IN THE PUBLIC VIEW.  AN INSPECTION REPORT SUMMARY FROM 2022 WAS POSTED INSTEAD.  MANAGEMENT WAS GIVEN A COPY OF TODAY&#39;S INSPECTION REPORT SUMMARY AND WAS INSTRUCTED TO POST IT IN THE PUBLIC VIEW.  PRIORITY FOUNDATION VIOLATION 7-42-010(B).  CITATION ISSUED.&quot;
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="why-is-handling-text-difficult">
@@ -478,6 +500,12 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;ABC,123,$%^&amp;&quot;</span>
+<span class="n">s</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;ABC,123,$%^&amp;&#39;
 </pre></div>
 </div>
 </div>
@@ -488,10 +516,20 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;abc,123,$%^&amp;&#39;
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;ABC,123,$%^&amp;&#39;
 </pre></div>
 </div>
 </div>
@@ -502,10 +540,20 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;ABC 123 $%^&amp;&#39;
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;ABC&#39;, &#39;123&#39;, &#39;$%^&amp;&#39;]
 </pre></div>
 </div>
 </div>
@@ -516,6 +564,11 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -523,10 +576,20 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;,$&#39;
 </pre></div>
 </div>
 </div>
@@ -597,9 +660,130 @@ Although the string operations are useful (<em>recall our <code class="docutils 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">county_state</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>County</th>
+      <th>State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>De Witt County</td>
+      <td>IL</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Lac qui Parle County</td>
+      <td>MN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Lewis and Clark County</td>
+      <td>MT</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>St John the Baptist Parish</td>
+      <td>LS</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">county_population</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>County</th>
+      <th>Population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>DeWitt</td>
+      <td>16798</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Lac Qui Parle</td>
+      <td>8067</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Lewis &amp; Clark</td>
+      <td>55716</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>St. John the Baptist</td>
+      <td>43044</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">canon_county</span><span class="p">(</span><span class="n">county_series</span><span class="p">):</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">county_series</span><span class="o">.</span><span class="n">str</span><span class="o">.</span>
-    <span class="k">return</span> <span class="n">result</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">county_state</span><span class="p">[</span><span class="s1">&#39;county_clean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">canon_county</span><span class="p">(</span><span class="n">county_state</span><span class="p">[</span><span class="s1">&#39;County&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">county_population</span><span class="p">[</span><span class="s1">&#39;county_clean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">canon_county</span><span class="p">(</span><span class="n">county_population</span><span class="p">[</span><span class="s1">&#39;County&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -628,9 +812,9 @@ Although the string operations are useful (<em>recall our <code class="docutils 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">return_time</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
-    
-    <span class="k">return</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">return_date_time</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+
+    <span class="k">return</span> <span class="n">result</span>
 </pre></div>
 </div>
 </div>
@@ -647,6 +831,11 @@ Although the string operations are useful (<em>recall our <code class="docutils 
 <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\[(\d+)\/(\w+)\/(\d+):(\d+):(\d+):(\d+) (.+)\]&#39;</span>  <span class="c1"># pattern to find in text</span>
 <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">line1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>                        <span class="c1"># try to match line to string</span>
 <span class="k">match</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;26&#39;, &#39;Jan&#39;, &#39;2024&#39;, &#39;10&#39;, &#39;47&#39;, &#39;58&#39;, &#39;-0800&#39;)
 </pre></div>
 </div>
 </div>

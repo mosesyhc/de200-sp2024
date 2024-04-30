@@ -17,6 +17,11 @@ parts:
   - file: lectures/03-data-manipulation
   - file: lectures/04-data-manipulation-2
   - file: lectures/05-data-manipulation-3-join
+  - file: lectures/06-text-wrangling
+
+- caption: Data retrieval
+  chapters:
+  - file: lectures/07-api
 
 - caption: Project
   chapters:

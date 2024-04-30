@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/06-text-wrangling';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Project Specification" href="../a0-project-specification.html" />
+    <link rel="next" title="Application Programming Interface (API)" href="07-api.html" />
     <link rel="prev" title="pandas Part III - Merging and joining datasets" href="05-data-manipulation-3-join.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -184,6 +184,10 @@
 <li class="toctree-l1"><a class="reference internal" href="04-data-manipulation-2.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II - Group and aggregation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05-data-manipulation-3-join.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III - Merging and joining datasets</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Handling text with string methods</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data retrieval</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="07-api.html">Application Programming Interface (API)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
 <ul class="nav bd-sidenav">
@@ -388,6 +392,13 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-7-regex-for-receipt">Practice 7 - regex for receipt</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-worked-on-in-april-25-class">Examples worked on in April 25 class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-regex-with-python-and-pandas">Examples of regex with Python and <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python">Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas"><code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-8-pandas-regex">Practice 8 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> regex</a></li>
 </ul>
             </nav>
         </div>
@@ -1035,6 +1046,106 @@ Use <code class="docutils literal notranslate"><span class="pre">^</span></code>
 </pre></div>
 </div>
 </section>
+<section id="examples-worked-on-in-april-25-class">
+<h2>Examples worked on in April 25 class<a class="headerlink" href="#examples-worked-on-in-april-25-class" title="Link to this heading">#</a></h2>
+<p>Date: 26/Jan/2024</p>
+<p><code class="docutils literal notranslate"><span class="pre">\d{1,2}\/[A-Z][a-z]{2}\/[0-9]{4}</span></code></p>
+<p>Academic email address:</p>
+<p><code class="docutils literal notranslate"><span class="pre">(\w+)((\.|\-)?(\w+)?)*&#64;\S+\.edu</span></code></p>
+<p>Course number:</p>
+<p><code class="docutils literal notranslate"><span class="pre">(\w+)\s*\d{3}</span></code></p>
+<p>Zip-code:</p>
+<p><code class="docutils literal notranslate"><span class="pre">^[0-9]{5}(\-[0-9]{4})?$</span></code></p>
+</section>
+<section id="examples-of-regex-with-python-and-pandas">
+<h2>Examples of regex with Python and <code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#examples-of-regex-with-python-and-pandas" title="Link to this heading">#</a></h2>
+<section id="python">
+<h3>Python<a class="headerlink" href="#python" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&lt;div&gt;&lt;td valign=&#39;top&#39;&gt;Moo&lt;/td&gt;&lt;/div&gt;&quot;</span>
+<span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&lt;[^&gt;]+&gt;&quot;</span>       <span class="c1"># r&quot;...&quot; indicates a raw string</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>What does this pattern match?</strong></p>
+<p><em>Reminder:</em> If we were to work with many strings (say in a dataset) at once, Python would loop through each one.</p>
+</section>
+<section id="pandas">
+<h3><code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#pandas" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&lt;div&gt;&lt;td valign=&#39;top&#39;&gt;Moo&lt;/td&gt;&lt;/div&gt;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&lt;a href=&#39;http://ds100.org&#39;&gt;Link&lt;/a&gt;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&lt;b&gt;Bold text&lt;/b&gt;&quot;</span><span class="p">]</span>
+
+<span class="n">html_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HTML&#39;</span><span class="p">])</span>
+<span class="n">html_data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>HTML</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>&lt;div&gt;&lt;td valign='top'&gt;Moo&lt;/td&gt;&lt;/div&gt;</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>&lt;a href='http://ds100.org'&gt;Link&lt;/a&gt;</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>&lt;b&gt;Bold text&lt;/b&gt;</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="practice-8-pandas-regex">
+<h2>Practice 8 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> regex<a class="headerlink" href="#practice-8-pandas-regex" title="Link to this heading">#</a></h2>
+<p>Valid social security numbers follow the pattern <code class="docutils literal notranslate"><span class="pre">XXX-XX-XXXX</span></code>, where <code class="docutils literal notranslate"><span class="pre">X</span></code> is a digit.  Write a function that takes the following dataframe and returns a list of all valid social security numbers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ssn</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a82-ng-397d&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;393-572910-38&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;shhhhh&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;123-45-6789 bro or 321-45-6789&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;99-99-9999&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;703-28-6930&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1077,11 +1188,11 @@ Use <code class="docutils literal notranslate"><span class="pre">^</span></code>
       </div>
     </a>
     <a class="right-next"
-       href="../a0-project-specification.html"
+       href="07-api.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Project Specification</p>
+        <p class="prev-next-title">Application Programming Interface (API)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1118,6 +1229,13 @@ Use <code class="docutils literal notranslate"><span class="pre">^</span></code>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-7-regex-for-receipt">Practice 7 - regex for receipt</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-worked-on-in-april-25-class">Examples worked on in April 25 class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-regex-with-python-and-pandas">Examples of regex with Python and <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python">Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas"><code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-8-pandas-regex">Practice 8 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> regex</a></li>
 </ul>
   </nav></div>
 

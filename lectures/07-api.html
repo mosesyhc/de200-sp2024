@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction to Data Science &#8212; DATA_ENG 200 Foundations of Data Science</title>
+    <title>Application Programming Interface (API) &#8212; DATA_ENG 200 Foundations of Data Science</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/01-intro-data-science';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/07-api';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Data exploration and visualization with Tableau" href="02-data-exploration.html" />
-    <link rel="prev" title="DATA_ENG 200: Foundations of Data Science" href="../00-syllabus.html" />
+    <link rel="next" title="Project Specification" href="../a0-project-specification.html" />
+    <link rel="prev" title="Handling text with string methods" href="06-text-wrangling.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -171,8 +171,8 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction to Data Science</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-intro-data-science.html">Introduction to Data Science</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data exploration and visualization with Tableau (on Canvas)</span></p>
 <ul class="nav bd-sidenav">
@@ -186,8 +186,8 @@
 <li class="toctree-l1"><a class="reference internal" href="06-text-wrangling.html">Handling text with string methods</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data retrieval</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="07-api.html">Application Programming Interface (API)</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Application Programming Interface (API)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
 <ul class="nav bd-sidenav">
@@ -250,7 +250,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/mosesyhc/de200-sp2024/blob/master/lectures/01-intro-data-science.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de200-sp2024/blob/master/lectures/07-api.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -281,7 +281,7 @@
       
       
       
-      <li><a href="../_sources/lectures/01-intro-data-science.ipynb" target="_blank"
+      <li><a href="../_sources/lectures/07-api.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -365,7 +365,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Introduction to Data Science</h1>
+    <h1>Application Programming Interface (API)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -375,9 +375,19 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pillars-of-data-science">“Pillars” of Data Science</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-class-fits-into-your-curriculum">How this class fits into your curriculum</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#who-are-you">Who are you?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-api">What is an API?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#representational-state-transfer-rest">Representational State Transfer (REST)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#request-via-a-url">Request via a URL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-art-institute-of-chicago-api">Example: Art Institute of Chicago API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-request">First request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#request-with-parameters">Request with parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-considerable-way-to-retrieve-multiple-pages-of-data">A considerable way to retrieve multiple pages of data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search-query">Search query</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-9-api-usage">Practice 9 - API usage</a></li>
 </ul>
             </nav>
         </div>
@@ -389,36 +399,103 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-data-science">
-<h1>Introduction to Data Science<a class="headerlink" href="#introduction-to-data-science" title="Link to this heading">#</a></h1>
-<figure class="align-default" id="ds-ai">
-<a class="reference internal image-reference" href="../_images/ds-ai.jpeg"><img alt="../_images/ds-ai.jpeg" src="../_images/ds-ai.jpeg" style="width: 80%;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Generated by AI.</span><a class="headerlink" href="#ds-ai" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<section id="pillars-of-data-science">
-<h2>“Pillars” of Data Science<a class="headerlink" href="#pillars-of-data-science" title="Link to this heading">#</a></h2>
-<p>Data Science is a very broad discipline, but generally the field is guided by four essential pillars:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="application-programming-interface-api">
+<h1>Application Programming Interface (API)<a class="headerlink" href="#application-programming-interface-api" title="Link to this heading">#</a></h1>
+<p>This document introduces the use of API to access and query data.  We focus on data access with APIs in this document.</p>
+<section id="what-is-an-api">
+<h2>What is an API?<a class="headerlink" href="#what-is-an-api" title="Link to this heading">#</a></h2>
+<p>Broadly speaking, an API is a set of rules and procedures that facilitate interactions between computers and their applications.</p>
+<p>A very common type of API is the <strong>Web API</strong>, which, among other things, allows users to query a remote database over the internet.</p>
+<p>An API specifies <strong>how</strong> a user or application accesses the data.</p>
+<p>Examples:</p>
 <ul class="simple">
-<li><p>Domain knowledge</p></li>
-<li><p>Mathematics and Statistics</p></li>
-<li><p>Computer Science</p></li>
-<li><p>Communications</p></li>
+<li><p>Twitter: tweets, users, replies, etc.</p></li>
+<li><p>Art Institute of Chicago: artworks, exhibits, ticketing, etc.</p></li>
+<li><p>New York Times archive: articles, headlines, book reviews, etc.</p></li>
+</ul>
+<section id="representational-state-transfer-rest">
+<h3>Representational State Transfer (REST)<a class="headerlink" href="#representational-state-transfer-rest" title="Link to this heading">#</a></h3>
+<p>RESTful</p>
+<ul class="simple">
+<li><p>APIs are convenient for querying databases by URLs.</p></li>
+<li><p>requests are self-contained, meaning that they do not rely on previous requests.</p></li>
+<li><p>responses can be cached to improve server response time.</p></li>
+</ul>
+<p><strong>General methods:</strong></p>
+<ul class="simple">
+<li><p>GET: access resources located at a URL</p></li>
+<li><p>POST: send data to the server</p></li>
+<li><p>PUT: update existing resources</p></li>
+<li><p>DELETE: delete resources in a server</p></li>
 </ul>
 </section>
-<section id="how-this-class-fits-into-your-curriculum">
-<h2>How this class fits into your curriculum<a class="headerlink" href="#how-this-class-fits-into-your-curriculum" title="Link to this heading">#</a></h2>
-<p><a class="reference external" href="https://www.mccormick.northwestern.edu/data-science-engineering/curriculum/">Data Science and Engineering Minor curriculum</a></p>
 </section>
-<section id="who-are-you">
-<h2>Who are you?<a class="headerlink" href="#who-are-you" title="Link to this heading">#</a></h2>
-<p>Tell us a little about yourself:</p>
+<section id="request-via-a-url">
+<h2>Request via a URL<a class="headerlink" href="#request-via-a-url" title="Link to this heading">#</a></h2>
+<figure class="align-default" id="url-example">
+<a class="reference internal image-reference" href="../_images/url.svg"><img alt="../_images/url.svg" src="../_images/url.svg" width="90%" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Anatomy of a URL request (<a class="reference external" href="http://rows.com">rows.com</a>)</span><a class="headerlink" href="#url-example" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="example-art-institute-of-chicago-api">
+<h2>Example: Art Institute of Chicago API<a class="headerlink" href="#example-art-institute-of-chicago-api" title="Link to this heading">#</a></h2>
+<p>The Art Institute of Chicago hosts a JSON-response API.  The preferrable way of using an API is to refer to its documentation, e.g. <a class="reference external" href="https://api.artic.edu/docs/">https://api.artic.edu/docs/</a>.</p>
+<p><strong>Important for any API usage (Terms and conditions):</strong></p>
+<ul class="simple">
+<li><p>Check rate limits</p></li>
+<li><p>Check authentication methods</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>  <span class="c1"># requests.readthedocs.io/</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="first-request">
+<h3>First request<a class="headerlink" href="#first-request" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url_artist</span> <span class="o">=</span> <span class="s1">&#39;https://api.artic.edu/api/v1/artists&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Note:</strong> We only retrieve 12 records from a total of &gt; 10000 records.</p>
+</section>
+<section id="request-with-parameters">
+<h3>Request with parameters<a class="headerlink" href="#request-with-parameters" title="Link to this heading">#</a></h3>
+</section>
+<section id="a-considerable-way-to-retrieve-multiple-pages-of-data">
+<h3>A considerable way to retrieve multiple pages of data<a class="headerlink" href="#a-considerable-way-to-retrieve-multiple-pages-of-data" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
-<li><p>Your name</p></li>
-<li><p>Your major</p></li>
-<li><p>What is an example of problems you want to solve?</p></li>
-<li><p>What do you expect to get out from this class?</p></li>
+<li><p>Check how much data there are.</p></li>
+<li><p>Use a for loop with <code class="docutils literal notranslate"><span class="pre">time.sleep()</span></code>.</p></li>
+</ol>
+<p>*<em>Note:</em> Even though we can “scrape” through the entire database, we typically should not.  See for example, discussion in <a class="reference external" href="https://api.artic.edu/docs/#data-dumps-vs-api">Data dump vs API</a>.</p>
+</section>
+<section id="search-query">
+<h3>Search query<a class="headerlink" href="#search-query" title="Link to this heading">#</a></h3>
+<p>Simply having access or a copy of the data is not inheritly useful.  Most APIs allow for either filtering or searching.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url_artist_search</span> <span class="o">=</span> <span class="n">url_artist</span> <span class="o">+</span> <span class="s1">&#39;/search&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="practice-9-api-usage">
+<h2>Practice 9 - API usage<a class="headerlink" href="#practice-9-api-usage" title="Link to this heading">#</a></h2>
+<p>Several endpoints for this API include <code class="docutils literal notranslate"><span class="pre">artists</span></code>, <code class="docutils literal notranslate"><span class="pre">exhibits</span></code>, <code class="docutils literal notranslate"><span class="pre">artworks</span></code>, etc.  Refer to <a class="reference external" href="https://api.artic.edu/docs/#endpoints">https://api.artic.edu/docs/#endpoints</a>.</p>
+<ol class="arabic simple">
+<li><p>How many artworks are in the Art Institute collection?</p></li>
+<li><p>Find the exhibits that has “Van Gogh” in the title.</p></li>
+<li><p>Search for a painting called “A Sunday on La Grande Jatte”.  Who is the artist?  When was it painted?</p></li>
 </ol>
 </section>
 </section>
@@ -454,20 +531,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../00-syllabus.html"
+       href="06-text-wrangling.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">DATA_ENG 200: Foundations of Data Science</p>
+        <p class="prev-next-title">Handling text with string methods</p>
       </div>
     </a>
     <a class="right-next"
-       href="02-data-exploration.html"
+       href="../a0-project-specification.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Data exploration and visualization with Tableau</p>
+        <p class="prev-next-title">Project Specification</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -487,9 +564,19 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pillars-of-data-science">“Pillars” of Data Science</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-class-fits-into-your-curriculum">How this class fits into your curriculum</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#who-are-you">Who are you?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-api">What is an API?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#representational-state-transfer-rest">Representational State Transfer (REST)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#request-via-a-url">Request via a URL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-art-institute-of-chicago-api">Example: Art Institute of Chicago API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-request">First request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#request-with-parameters">Request with parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-considerable-way-to-retrieve-multiple-pages-of-data">A considerable way to retrieve multiple pages of data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search-query">Search query</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-9-api-usage">Practice 9 - API usage</a></li>
 </ul>
   </nav></div>
 

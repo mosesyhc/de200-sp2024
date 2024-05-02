@@ -388,7 +388,19 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-9-api-usage">Practice 9 - API usage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#possible-available-apis-without-authorizations">Possible available APIs without authorizations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#possible-available-apis-with-without-authorizations">Possible available APIs with/without authorizations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-with-new-york-times-api">Example with New York Times API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-word-about-the-use-of-an-api-key">Brief word about the use of an API key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-in-using-an-api-key">Best practices in using an API key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search-articles">Search articles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-articles-matched-the-search">How many articles matched the search?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-articles-did-we-get">How many articles did we get?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-articles-are-there-for-the-last-10-years-2014-2024">How many articles are there for the last 10 years (2014 - 2024)?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-articles-are-there-in-each-of-the-last-10-years">How many articles are there in each of the last 10 years?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-first-50-articles">Get the first 50 articles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-10-mtfbwy">Practice 10 - MTFBWY</a></li>
 </ul>
             </nav>
         </div>
@@ -461,6 +473,8 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url_artist</span> <span class="o">=</span> <span class="s1">&#39;https://api.artic.edu/api/v1/artists&#39;</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url_artist</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -469,6 +483,13 @@ document.write(`
 </section>
 <section id="request-with-parameters">
 <h3>Request with parameters<a class="headerlink" href="#request-with-parameters" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url_artist</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="a-considerable-way-to-retrieve-multiple-pages-of-data">
 <h3>A considerable way to retrieve multiple pages of data<a class="headerlink" href="#a-considerable-way-to-retrieve-multiple-pages-of-data" title="Link to this heading">#</a></h3>
@@ -499,12 +520,102 @@ document.write(`
 <li><p>Search for a painting called “A Sunday on La Grande Jatte”.  Who is the artist?  When was it painted?</p></li>
 </ol>
 </section>
-<section id="possible-available-apis-without-authorizations">
-<h2>Possible available APIs without authorizations<a class="headerlink" href="#possible-available-apis-without-authorizations" title="Link to this heading">#</a></h2>
+<section id="possible-available-apis-with-without-authorizations">
+<h2>Possible available APIs with/without authorizations<a class="headerlink" href="#possible-available-apis-with-without-authorizations" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>See <a class="github reference external" href="https://github.com/public-apis/public-apis">public-apis/public-apis</a>.</p></li>
 <li><p>See <a class="reference external" href="https://mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis/">https://mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis/</a>.</p></li>
 </ul>
+</section>
+<section id="example-with-new-york-times-api">
+<h2>Example with New York Times API<a class="headerlink" href="#example-with-new-york-times-api" title="Link to this heading">#</a></h2>
+<p>The New York Times API uses an API key to authenticate users.  The <a class="reference external" href="https://developer.nytimes.com/faq">FAQs</a> page has some good information about the usage of these APIs.  You may request a NYT API key using the instructions listed in <a class="reference external" href="https://developer.nytimes.com/get-started">https://developer.nytimes.com/get-started</a>.</p>
+<section id="brief-word-about-the-use-of-an-api-key">
+<h3>Brief word about the use of an API key<a class="headerlink" href="#brief-word-about-the-use-of-an-api-key" title="Link to this heading">#</a></h3>
+<p>An API key is a unique generated string that</p>
+<ul class="simple">
+<li><p>identifies a particular application (or project),</p></li>
+<li><p>authenticates and grants access to a user,</p></li>
+<li><p>provides guardrails to controlling API usage traffic, and</p></li>
+<li><p>enables resource management over the flow of data.</p></li>
+</ul>
+</section>
+<section id="best-practices-in-using-an-api-key">
+<h3>Best practices in using an API key<a class="headerlink" href="#best-practices-in-using-an-api-key" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Do not</strong> hardcode your API key into any scripts.</p>
+<ul>
+<li><p>For example, save your API key in a local file (or environment variables) and access it from your code.</p></li>
+</ul>
+</li>
+<li><p><strong>Do not</strong> upload your API key anywhere publicly accessible.</p></li>
+<li><p>Rotate API keys.</p></li>
+<li><p>Revoke access after the lifespan of a project.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../data/nyt_api.key&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">apikey</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># formatted string example</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://api.nytimes.com/svc/search/v2/articlesearch.json?&amp;api-key=</span><span class="si">{</span><span class="n">apikey</span><span class="si">}</span><span class="s1">&#39;</span>
+	
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="search-articles">
+<h3>Search articles<a class="headerlink" href="#search-articles" title="Link to this heading">#</a></h3>
+<p>Example API: <a class="reference external" href="https://developer.nytimes.com/docs/articlesearch-product/1/routes/articlesearch.json/get">https://developer.nytimes.com/docs/articlesearch-product/1/routes/articlesearch.json/get</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{})</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="how-many-articles-matched-the-search">
+<h3>How many articles matched the search?<a class="headerlink" href="#how-many-articles-matched-the-search" title="Link to this heading">#</a></h3>
+</section>
+<section id="how-many-articles-did-we-get">
+<h3>How many articles did we get?<a class="headerlink" href="#how-many-articles-did-we-get" title="Link to this heading">#</a></h3>
+</section>
+<section id="how-many-articles-are-there-for-the-last-10-years-2014-2024">
+<h3>How many articles are there for the last 10 years (2014 - 2024)?<a class="headerlink" href="#how-many-articles-are-there-for-the-last-10-years-2014-2024" title="Link to this heading">#</a></h3>
+</section>
+<section id="how-many-articles-are-there-in-each-of-the-last-10-years">
+<h3>How many articles are there in each of the last 10 years?<a class="headerlink" href="#how-many-articles-are-there-in-each-of-the-last-10-years" title="Link to this heading">#</a></h3>
+</section>
+<section id="get-the-first-50-articles">
+<h3>Get the first 50 articles<a class="headerlink" href="#get-the-first-50-articles" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="practice-10-mtfbwy">
+<h2>Practice 10 - MTFBWY<a class="headerlink" href="#practice-10-mtfbwy" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Find out (if you don’t already know) the year when the first Star Wars movie came out.</p></li>
+<li><p>Retrieve the number of hits per year since then for the following terms:</p>
+<ul class="simple">
+<li><p>‘Carrie Fisher’</p></li>
+<li><p>‘Harrison Ford’</p></li>
+<li><p>‘Daisy Ridley’</p></li>
+<li><p>‘Star Wars’</p></li>
+<li><p>Add more if you wish…</p></li>
+</ul>
+</li>
+<li><p>Store the numbers into a dataframe.</p></li>
+<li><p>Plot the number of hits against year on the same graph.</p></li>
+</ol>
 </section>
 </section>
 
@@ -585,7 +696,19 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-9-api-usage">Practice 9 - API usage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#possible-available-apis-without-authorizations">Possible available APIs without authorizations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#possible-available-apis-with-without-authorizations">Possible available APIs with/without authorizations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-with-new-york-times-api">Example with New York Times API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-word-about-the-use-of-an-api-key">Brief word about the use of an API key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-in-using-an-api-key">Best practices in using an API key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search-articles">Search articles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-articles-matched-the-search">How many articles matched the search?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-articles-did-we-get">How many articles did we get?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-articles-are-there-for-the-last-10-years-2014-2024">How many articles are there for the last 10 years (2014 - 2024)?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-articles-are-there-in-each-of-the-last-10-years">How many articles are there in each of the last 10 years?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-first-50-articles">Get the first 50 articles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-10-mtfbwy">Practice 10 - MTFBWY</a></li>
 </ul>
   </nav></div>
 

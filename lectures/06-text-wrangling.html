@@ -1063,7 +1063,7 @@ Use <code class="docutils literal notranslate"><span class="pre">^</span></code>
 <h3>Python<a class="headerlink" href="#python" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>  
 
 <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&lt;div&gt;&lt;td valign=&#39;top&#39;&gt;Moo&lt;/td&gt;&lt;/div&gt;&quot;</span>
 <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&lt;[^&gt;]+&gt;&quot;</span>       <span class="c1"># r&quot;...&quot; indicates a raw string</span>
@@ -1072,6 +1072,54 @@ Use <code class="docutils literal notranslate"><span class="pre">^</span></code>
 </div>
 </div>
 <p><strong>What does this pattern match?</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">text</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;&lt;div&gt;&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;&lt;div&gt;&#39;, &quot;&lt;td valign=&#39;top&#39;&gt;&quot;, &#39;&lt;/td&gt;&#39;, &#39;&lt;/div&gt;&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;&lt;div&gt;&lt;td valign=&#39;top&#39;&gt;Moo&lt;/td&gt;&lt;/div&gt;&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>  <span class="c1"># replace any matched text with &#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Moo&#39;
+</pre></div>
+</div>
+</div>
+</div>
 <p><em>Reminder:</em> If we were to work with many strings (say in a dataset) at once, Python would loop through each one.</p>
 </section>
 <section id="pandas">
@@ -1128,6 +1176,51 @@ Use <code class="docutils literal notranslate"><span class="pre">^</span></code>
 </table>
 </div></div></div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">html_data</span><span class="p">[</span><span class="s1">&#39;HTML&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    True
+1    True
+2    True
+Name: HTML, dtype: bool
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">html_data</span><span class="p">[</span><span class="s1">&#39;HTML&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    [&lt;div&gt;, &lt;td valign=&#39;top&#39;&gt;, &lt;/td&gt;, &lt;/div&gt;]
+1          [&lt;a href=&#39;http://ds100.org&#39;&gt;, &lt;/a&gt;]
+2                                  [&lt;b&gt;, &lt;/b&gt;]
+Name: HTML, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">html_data</span><span class="p">[</span><span class="s1">&#39;HTML&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0          Moo
+1         Link
+2    Bold text
+Name: HTML, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="practice-8-pandas-regex">
@@ -1141,6 +1234,56 @@ Use <code class="docutils literal notranslate"><span class="pre">^</span></code>
        <span class="s1">&#39;123-45-6789 bro or 321-45-6789&#39;</span><span class="p">,</span>
        <span class="s1">&#39;99-99-9999&#39;</span><span class="p">,</span>
        <span class="s1">&#39;703-28-6930&#39;</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ssn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0                       a82-ng-397d
+1                     393-572910-38
+2                            shhhhh
+3    123-45-6789 bro or 321-45-6789
+4                        99-99-9999
+5                       703-28-6930
+Name: 0, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\d</span><span class="si">{3}</span><span class="s1">\-\d</span><span class="si">{2}</span><span class="s1">\-\d</span><span class="si">{4}</span><span class="s1">&#39;</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+<span class="n">results</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0                            []
+1                            []
+2                            []
+3    [123-45-6789, 321-45-6789]
+4                            []
+5                 [703-28-6930]
+Name: 0, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_ssn</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\d</span><span class="si">{3}</span><span class="s1">\-\d</span><span class="si">{2}</span><span class="s1">\-\d</span><span class="si">{4}</span><span class="s1">&#39;</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
 </pre></div>
 </div>
 </div>

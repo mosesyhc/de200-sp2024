@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/07-api';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Project Specification" href="../a0-project-specification.html" />
+    <link rel="next" title="Web-scraping with BeautifulSoup4" href="08-web-scraping.html" />
     <link rel="prev" title="Handling text with string methods" href="06-text-wrangling.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -188,6 +188,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Data retrieval</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Application Programming Interface (API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-web-scraping.html">Web-scraping with <code class="docutils literal notranslate"><span class="pre">BeautifulSoup4</span></code></a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
 <ul class="nav bd-sidenav">
@@ -566,8 +567,21 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># formatted string example</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://api.nytimes.com/svc/search/v2/articlesearch.json?&amp;api-key=</span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">apikey</span><span class="p">)</span>
 <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://api.nytimes.com/svc/search/v2/articlesearch.json?&amp;api-key=</span><span class="si">{</span><span class="n">apikey</span><span class="si">}</span><span class="s1">&#39;</span>
 	
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://api.nytimes.com/svc/search/v2/articlesearch.json?&amp;api-key=tis7s7SSRkEyTcvFcUp1FfTiIM5bSOsk&#39;
 </pre></div>
 </div>
 </div>
@@ -578,7 +592,43 @@ document.write(`
 <p>Example API: <a class="reference external" href="https://developer.nytimes.com/docs/articlesearch-product/1/routes/articlesearch.json/get">https://developer.nytimes.com/docs/articlesearch-product/1/routes/articlesearch.json/get</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;q&#39;</span><span class="p">:</span><span class="s1">&#39;carlos alvarez&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;begin_date&#39;</span><span class="p">:</span> <span class="s1">&#39;20140101&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;facet&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;facet_fields&#39;</span><span class="p">:</span> <span class="s1">&#39;pub_year&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="o">.</span><span class="n">ok</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;response&#39;</span><span class="p">][</span><span class="s1">&#39;facets&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;pub_year&#39;: {&#39;terms&#39;: [{&#39;term&#39;: &#39;2023&#39;, &#39;count&#39;: 36},
+   {&#39;term&#39;: &#39;2024&#39;, &#39;count&#39;: 32},
+   {&#39;term&#39;: &#39;2019&#39;, &#39;count&#39;: 25},
+   {&#39;term&#39;: &#39;2014&#39;, &#39;count&#39;: 24},
+   {&#39;term&#39;: &#39;2016&#39;, &#39;count&#39;: 24},
+   {&#39;term&#39;: &#39;2015&#39;, &#39;count&#39;: 23},
+   {&#39;term&#39;: &#39;2022&#39;, &#39;count&#39;: 21},
+   {&#39;term&#39;: &#39;2021&#39;, &#39;count&#39;: 20},
+   {&#39;term&#39;: &#39;2017&#39;, &#39;count&#39;: 16},
+   {&#39;term&#39;: &#39;2020&#39;, &#39;count&#39;: 16}]}}
 </pre></div>
 </div>
 </div>
@@ -659,11 +709,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="../a0-project-specification.html"
+       href="08-web-scraping.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Project Specification</p>
+        <p class="prev-next-title">Web-scraping with <code class="docutils literal notranslate"><span class="pre">BeautifulSoup4</span></code></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

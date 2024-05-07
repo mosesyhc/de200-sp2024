@@ -1,0 +1,751 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Web-scraping with BeautifulSoup4 &#8212; DATA_ENG 200 Foundations of Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/08-web-scraping';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Project Specification" href="../a0-project-specification.html" />
+    <link rel="prev" title="Application Programming Interface (API)" href="07-api.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../00-syllabus.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">DATA_ENG 200 Foundations of Data Science</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-syllabus.html">
+                    DATA_ENG 200: Foundations of Data Science
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-intro-data-science.html">Introduction to Data Science</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data exploration and visualization with Tableau (on Canvas)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="02-data-exploration.html">Data exploration and visualization with Tableau</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data manipulation with pandas</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="03-data-manipulation.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part I - Basic usage, indexing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-data-manipulation-2.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part II - Group and aggregation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-data-manipulation-3-join.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> Part III - Merging and joining datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-text-wrangling.html">Handling text with string methods</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data retrieval</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="07-api.html">Application Programming Interface (API)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Web-scraping with <code class="docutils literal notranslate"><span class="pre">BeautifulSoup4</span></code></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../a0-project-specification.html">Project Specification</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bibliography</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../99-reference.html">Reference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/mosesyhc/de200-sp2024/blob/master/lectures/08-web-scraping.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/08-web-scraping.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Web-scraping with BeautifulSoup4</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#to-scrape-or-not-to-scrape">To scrape or not to scrape</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ethics-of-web-scraping">Ethics of web scraping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-a-webpage">Anatomy of a webpage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parsing-a-website">Parsing a website</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#html-briefly">HTML, briefly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#html-as-a-tree">HTML as a tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-components-of-html-tags-attributes-and-content">Three components of HTML (<em>Tags</em>, <em>Attributes</em>, and <em>Content</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-tags">Example tags</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-with-weather-com">Example with weather.com</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-11-beautifulsoup">Practice 11 - BeautifulSoup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reference">Further reference</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="web-scraping-with-beautifulsoup4">
+<h1>Web-scraping with <code class="docutils literal notranslate"><span class="pre">BeautifulSoup4</span></code><a class="headerlink" href="#web-scraping-with-beautifulsoup4" title="Link to this heading">#</a></h1>
+<p>This document covers basic usage of <code class="docutils literal notranslate"><span class="pre">bs4</span></code> (Beautiful Soup 4) for scraping a webpage.  We will primarily discuss extracting information from <em>one</em> webpage, and leave web-crawling to an advanced class on web scraping.</p>
+<section id="to-scrape-or-not-to-scrape">
+<h2>To scrape or not to scrape<a class="headerlink" href="#to-scrape-or-not-to-scrape" title="Link to this heading">#</a></h2>
+<p>Unlike APIs, which are designed for programs/applications to interact with the data, web-scraping is directly working with user-facing websites for humans.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Web scraping benefits:</p></th>
+<th class="head"><p>Web scraping challenges:</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Any content that can be viewed on a webpage can be scraped.</p></td>
+<td><p>Rarely tailored for researchers.</p></td>
+</tr>
+<tr class="row-odd"><td><p>No API needed.</p></td>
+<td><p>Your IP can be blocked (403)</p></td>
+</tr>
+<tr class="row-even"><td><p>No rate-limiting or authentication (usually).</p></td>
+<td><p>Messy, unstructured, inconsistent.</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Entirely site-dependent.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule of thumb:</strong>
+Check if there is an API.  If not, then consider scraping.</p>
+</section>
+<section id="ethics-of-web-scraping">
+<h2>Ethics of web scraping<a class="headerlink" href="#ethics-of-web-scraping" title="Link to this heading">#</a></h2>
+<p>Several considerations before scraping:</p>
+<ul class="simple">
+<li><p>Read the terms and conditions of data use.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">robots.txt</span></code></p></li>
+<li><p>Self-throttle, as in API usage.</p></li>
+<li><p>Web-scrapers require regular maintenance (best coupled with CI/CD).</p></li>
+</ul>
+</section>
+<section id="anatomy-of-a-webpage">
+<h2>Anatomy of a webpage<a class="headerlink" href="#anatomy-of-a-webpage" title="Link to this heading">#</a></h2>
+<p>A website is typically built up from some combination of codebase and database.  The front-end product combines HTML, CSS stylesheets, and javascript.</p>
+<figure class="align-default" id="html-anatomy">
+<a class="reference internal image-reference" href="../_images/anatomy-html.jpg"><img alt="../_images/anatomy-html.jpg" src="../_images/anatomy-html.jpg" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Anatomy of a website (Adobe)</span><a class="headerlink" href="#html-anatomy" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="anatomy-html-css">
+<a class="reference internal image-reference" href="../_images/anatomy-html-css.jpg"><img alt="../_images/anatomy-html-css.jpg" src="../_images/anatomy-html-css.jpg" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Anatomy of a website, with CSS styles (Adobe)</span><a class="headerlink" href="#anatomy-html-css" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="parsing-a-website">
+<h2>Parsing a website<a class="headerlink" href="#parsing-a-website" title="Link to this heading">#</a></h2>
+<p>Retrieving the website content is not difficult - extracting the exact useful information is.</p>
+<section id="html-briefly">
+<h3>HTML, briefly<a class="headerlink" href="#html-briefly" title="Link to this heading">#</a></h3>
+<figure class="align-default" id="jb-html">
+<a class="reference internal image-reference" href="../_images/html-doc.png"><img alt="../_images/html-doc.png" src="../_images/html-doc.png" style="width: 75%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">HTML structure of this Jupyter notebook.</span><a class="headerlink" href="#jb-html" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="html-as-a-tree">
+<h3>HTML as a tree<a class="headerlink" href="#html-as-a-tree" title="Link to this heading">#</a></h3>
+<figure class="align-default" id="html-tree">
+<a class="reference internal image-reference" href="../_images/html-tree.png"><img alt="../_images/html-tree.png" src="../_images/html-tree.png" style="width: 75%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">HTML as a tree.  Each branch is an <strong>element</strong>.</span><a class="headerlink" href="#html-tree" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="three-components-of-html-tags-attributes-and-content">
+<h3>Three components of HTML (<em>Tags</em>, <em>Attributes</em>, and <em>Content</em>)<a class="headerlink" href="#three-components-of-html-tags-attributes-and-content" title="Link to this heading">#</a></h3>
+<figure class="align-default" id="html-element">
+<a class="reference internal image-reference" href="../_images/html-element.png"><img alt="../_images/html-element.png" src="../_images/html-element.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">An example of an HTML element.</span><a class="headerlink" href="#html-element" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="example-tags">
+<h3>Example tags<a class="headerlink" href="#example-tags" title="Link to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Tag</p></th>
+<th class="head text-center"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;head&gt;</span></code></p></td>
+<td class="text-center"><p>page header (metadata, etc</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;body&gt;</span></code></p></td>
+<td class="text-center"><p>holds all of the content</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;p&gt;</span></code></p></td>
+<td class="text-center"><p>regular text (paragraph)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;h1&gt;,&lt;h2&gt;,&lt;h3&gt;</span></code></p></td>
+<td class="text-center"><p>header text, levels 1, 2, 3</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">ol,&lt;ul&gt;,&lt;li&gt;</span></code></p></td>
+<td class="text-center"><p>ordered list, unordered list, list item</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;a</span> <span class="pre">href=&quot;page.html&quot;&gt;</span></code></p></td>
+<td class="text-center"><p>link to “page.html”</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;table&gt;,&lt;tr&gt;,&lt;td&gt;</span></code></p></td>
+<td class="text-center"><p>table, table row, table item</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">&lt;div&gt;,&lt;span&gt;</span></code></p></td>
+<td class="text-center"><p>general containers (can contain CSS, JavaScript, etc.)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="example-with-weather-com">
+<h2>Example with <a class="reference external" href="http://weather.com">weather.com</a><a class="headerlink" href="#example-with-weather-com" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># beautifulsoup4 package and lxml parser</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>beautifulsoup4
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>lxml
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">headers</span> <span class="o">=</span>
+<span class="n">url</span> <span class="o">=</span> 
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># accessing content</span>
+<span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">[:</span><span class="mi">100</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># using bs4</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># selecting by tags</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># locate by tags</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># locate neighboring content</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="practice-11-beautifulsoup">
+<h2>Practice 11 - BeautifulSoup<a class="headerlink" href="#practice-11-beautifulsoup" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Locate the tags and attributes for the following items:</p></li>
+</ol>
+<figure class="align-default" id="weather-element">
+<a class="reference internal image-reference" href="../_images/weather-elements.png"><img alt="../_images/weather-elements.png" src="../_images/weather-elements.png" style="width: 50%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 15 </span><span class="caption-text">Fact card from <a class="reference external" href="http://weather.com">weather.com</a>.</span><a class="headerlink" href="#weather-element" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ol class="arabic simple" start="2">
+<li><p>Create a dataframe with columns as the items:</p>
+<ul class="simple">
+<li><p>DateDay</p></li>
+<li><p>Temperature</p></li>
+<li><p>Rain</p></li>
+<li><p>UV</p></li>
+<li><p>Description</p></li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="3">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">BeautifulSoup</span></code>, populate the table for the first day (May 7).</p></li>
+<li><p>Repeat for the next nine days (May 8 - May 16).</p></li>
+</ol>
+</section>
+<section id="further-reference">
+<h2>Further reference<a class="headerlink" href="#further-reference" title="Link to this heading">#</a></h2>
+<p>Read <em>The Legalities and Ethics of Web Scraping</em> <code class="docutils literal notranslate"><span class="pre">cite:p</span></code>{mitchell2018web} for a brief discussion on web-scraping ethics.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="07-api.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Application Programming Interface (API)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../a0-project-specification.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Project Specification</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#to-scrape-or-not-to-scrape">To scrape or not to scrape</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ethics-of-web-scraping">Ethics of web scraping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-a-webpage">Anatomy of a webpage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parsing-a-website">Parsing a website</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#html-briefly">HTML, briefly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#html-as-a-tree">HTML as a tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-components-of-html-tags-attributes-and-content">Three components of HTML (<em>Tags</em>, <em>Attributes</em>, and <em>Content</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-tags">Example tags</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-with-weather-com">Example with weather.com</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practice-11-beautifulsoup">Practice 11 - BeautifulSoup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reference">Further reference</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Moses Y.-H. Chan
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

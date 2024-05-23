@@ -201,6 +201,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../a0-project-specification.html">Project Specification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../a1-presentation-rubric.html">Presentation reference rubric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../a2-jupyter-ec2.html">Setting up EC2 instance for jupyter notebook</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Bibliography</span></p>
 <ul class="nav bd-sidenav">
@@ -933,7 +934,7 @@ Please also refer to the documentation for alternative solver options:
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span>
-
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">colors</span> <span class="o">=</span> <span class="n">cycle</span><span class="p">([</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">])</span>
 <span class="n">neg_log_alphas_lasso</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">alphas_lasso</span><span class="p">)</span>
@@ -950,10 +951,28 @@ Please also refer to the documentation for alternative solver options:
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-6.1989265528509065,
+ -2.461192543311665,
+ -58.109244400837554,
+ 29.631812805803392)
+</pre></div>
+</div>
+<img alt="../_images/01608eb7e5f514f1749b3e6be12cba2a0b756b6b68d6a5b27393ebb7ed036397.png" src="../_images/01608eb7e5f514f1749b3e6be12cba2a0b756b6b68d6a5b27393ebb7ed036397.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;,
+       &#39;species_Adelie&#39;, &#39;species_Chinstrap&#39;, &#39;species_Gentoo&#39;,
+       &#39;island_Biscoe&#39;, &#39;island_Dream&#39;, &#39;island_Torgersen&#39;, &#39;sex_Female&#39;,
+       &#39;sex_Male&#39;],
+      dtype=&#39;object&#39;)
 </pre></div>
 </div>
 </div>
@@ -964,10 +983,24 @@ Please also refer to the documentation for alternative solver options:
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([  0.        , -54.12101453,  25.64358293,  -0.        ,
+        -0.        ,   0.        ,   0.        ,  -0.        ,
+        -0.        ,  -0.        ,   0.        ])
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="one-step-toward-automating-machine-learning-model-selection">
 <h2>One step toward automating machine learning model selection<a class="headerlink" href="#one-step-toward-automating-machine-learning-model-selection" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install autogluon</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">autogluon.tabular</span> <span class="kn">import</span> <span class="n">TabularDataset</span><span class="p">,</span> <span class="n">TabularPredictor</span>
@@ -980,9 +1013,788 @@ Please also refer to the documentation for alternative solver options:
 </div>
 <section id="regression">
 <h3>Regression<a class="headerlink" href="#regression" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 333 entries, 0 to 343
+Data columns (total 7 columns):
+ #   Column             Non-Null Count  Dtype  
+---  ------             --------------  -----  
+ 0   species            333 non-null    object 
+ 1   island             333 non-null    object 
+ 2   bill_length_mm     333 non-null    float64
+ 3   bill_depth_mm      333 non-null    float64
+ 4   flipper_length_mm  333 non-null    float64
+ 5   body_mass_g        333 non-null    float64
+ 6   sex                333 non-null    object 
+dtypes: float64(4), object(3)
+memory usage: 20.8+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span> <span class="o">=</span> <span class="n">TabularPredictor</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;body_mass_g&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="o">=</span><span class="n">penguins</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No path specified. Models will be saved in: &quot;AutogluonModels\ag-20240521_183554&quot;
+No presets specified! To achieve strong results with AutoGluon, it is recommended to use the available presets.
+	Recommended Presets (For more details refer to https://auto.gluon.ai/stable/tutorials/tabular/tabular-essentials.html#presets):
+	presets=&#39;best_quality&#39;   : Maximize accuracy. Default time_limit=3600.
+	presets=&#39;high_quality&#39;   : Strong accuracy with fast inference speed. Default time_limit=3600.
+	presets=&#39;good_quality&#39;   : Good accuracy with very fast inference speed. Default time_limit=3600.
+	presets=&#39;medium_quality&#39; : Fast training time, ideal for initial prototyping.
+Beginning AutoGluon training ...
+AutoGluon will save models to &quot;AutogluonModels\ag-20240521_183554&quot;
+=================== System Info ===================
+AutoGluon Version:  1.1.0
+Python Version:     3.11.8
+Operating System:   Windows
+Platform Machine:   AMD64
+Platform Version:   10.0.22635
+CPU Count:          12
+Memory Avail:       4.91 GB / 15.67 GB (31.4%)
+Disk Space Avail:   363.43 GB / 474.72 GB (76.6%)
+===================================================
+Train Data Rows:    333
+Train Data Columns: 6
+Label Column:       body_mass_g
+AutoGluon infers your prediction problem is: &#39;regression&#39; (because dtype of label-column == float and many unique label-values observed).
+	Label info (max, min, mean, stddev): (6300.0, 2700.0, 4207.05706, 805.2158)
+	If &#39;regression&#39; is not the correct problem_type, please manually specify the problem_type parameter during predictor init (You may specify problem_type as one of: [&#39;binary&#39;, &#39;multiclass&#39;, &#39;regression&#39;])
+Problem Type:       regression
+Preprocessing data ...
+Using Feature Generators to preprocess the data ...
+Fitting AutoMLPipelineFeatureGenerator...
+	Available Memory:                    5021.67 MB
+	Train Data (Original)  Memory Usage: 0.07 MB (0.0% of available memory)
+	Inferring data type of each feature based on column values. Set feature_metadata_in to manually specify special dtypes of the features.
+	Stage 1 Generators:
+		Fitting AsTypeFeatureGenerator...
+			Note: Converting 1 features to boolean dtype as they only contain 2 unique values.
+	Stage 2 Generators:
+		Fitting FillNaFeatureGenerator...
+	Stage 3 Generators:
+		Fitting IdentityFeatureGenerator...
+		Fitting CategoryFeatureGenerator...
+			Fitting CategoryMemoryMinimizeFeatureGenerator...
+	Stage 4 Generators:
+		Fitting DropUniqueFeatureGenerator...
+	Stage 5 Generators:
+		Fitting DropDuplicatesFeatureGenerator...
+	Types of features in original data (raw dtype, special dtypes):
+		(&#39;float&#39;, [])  : 3 | [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;]
+		(&#39;object&#39;, []) : 3 | [&#39;species&#39;, &#39;island&#39;, &#39;sex&#39;]
+	Types of features in processed data (raw dtype, special dtypes):
+		(&#39;category&#39;, [])  : 2 | [&#39;species&#39;, &#39;island&#39;]
+		(&#39;float&#39;, [])     : 3 | [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;]
+		(&#39;int&#39;, [&#39;bool&#39;]) : 1 | [&#39;sex&#39;]
+	0.1s = Fit runtime
+	6 features in original data used to generate 6 features in processed data.
+	Train Data (Processed) Memory Usage: 0.01 MB (0.0% of available memory)
+Data preprocessing and feature engineering runtime = 0.1s ...
+AutoGluon will gauge predictive performance using evaluation metric: &#39;root_mean_squared_error&#39;
+	This metric&#39;s sign has been flipped to adhere to being higher_is_better. The metric score can be multiplied by -1 to get the metric value.
+	To change this, specify the eval_metric parameter of Predictor()
+Automatically generating train/validation split with holdout_frac=0.2, Train Rows: 266, Val Rows: 67
+User-specified model hyperparameters to be fit:
+{
+	&#39;NN_TORCH&#39;: {},
+	&#39;GBM&#39;: [{&#39;extra_trees&#39;: True, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;XT&#39;}}, {}, &#39;GBMLarge&#39;],
+	&#39;CAT&#39;: {},
+	&#39;XGB&#39;: {},
+	&#39;FASTAI&#39;: {},
+	&#39;RF&#39;: [{&#39;criterion&#39;: &#39;gini&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Gini&#39;, &#39;problem_types&#39;: [&#39;binary&#39;, &#39;multiclass&#39;]}}, {&#39;criterion&#39;: &#39;entropy&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Entr&#39;, &#39;problem_types&#39;: [&#39;binary&#39;, &#39;multiclass&#39;]}}, {&#39;criterion&#39;: &#39;squared_error&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;MSE&#39;, &#39;problem_types&#39;: [&#39;regression&#39;, &#39;quantile&#39;]}}],
+	&#39;XT&#39;: [{&#39;criterion&#39;: &#39;gini&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Gini&#39;, &#39;problem_types&#39;: [&#39;binary&#39;, &#39;multiclass&#39;]}}, {&#39;criterion&#39;: &#39;entropy&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Entr&#39;, &#39;problem_types&#39;: [&#39;binary&#39;, &#39;multiclass&#39;]}}, {&#39;criterion&#39;: &#39;squared_error&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;MSE&#39;, &#39;problem_types&#39;: [&#39;regression&#39;, &#39;quantile&#39;]}}],
+	&#39;KNN&#39;: [{&#39;weights&#39;: &#39;uniform&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Unif&#39;}}, {&#39;weights&#39;: &#39;distance&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Dist&#39;}}],
+}
+Fitting 11 L1 models ...
+Fitting model: KNeighborsUnif ...
+	-359.6754	 = Validation score   (-root_mean_squared_error)
+	5.78s	 = Training   runtime
+	0.03s	 = Validation runtime
+Fitting model: KNeighborsDist ...
+	-364.5531	 = Validation score   (-root_mean_squared_error)
+	0.01s	 = Training   runtime
+	0.02s	 = Validation runtime
+Fitting model: LightGBMXT ...
+	-286.4136	 = Validation score   (-root_mean_squared_error)
+	0.91s	 = Training   runtime
+	0.02s	 = Validation runtime
+Fitting model: LightGBM ...
+	-278.7365	 = Validation score   (-root_mean_squared_error)
+	0.48s	 = Training   runtime
+	0.0s	 = Validation runtime
+Fitting model: RandomForestMSE ...
+	-297.636	 = Validation score   (-root_mean_squared_error)
+	0.87s	 = Training   runtime
+	0.05s	 = Validation runtime
+Fitting model: CatBoost ...
+	-290.2883	 = Validation score   (-root_mean_squared_error)
+	30.98s	 = Training   runtime
+	0.02s	 = Validation runtime
+Fitting model: ExtraTreesMSE ...
+	-296.9201	 = Validation score   (-root_mean_squared_error)
+	0.62s	 = Training   runtime
+	0.04s	 = Validation runtime
+Fitting model: NeuralNetFastAI ...
+	-382.0414	 = Validation score   (-root_mean_squared_error)
+	1.64s	 = Training   runtime
+	0.02s	 = Validation runtime
+Fitting model: XGBoost ...
+	-308.9086	 = Validation score   (-root_mean_squared_error)
+	0.49s	 = Training   runtime
+	0.0s	 = Validation runtime
+Fitting model: NeuralNetTorch ...
+	-275.6107	 = Validation score   (-root_mean_squared_error)
+	4.68s	 = Training   runtime
+	0.02s	 = Validation runtime
+Fitting model: LightGBMLarge ...
+	-309.3312	 = Validation score   (-root_mean_squared_error)
+	0.63s	 = Training   runtime
+	0.02s	 = Validation runtime
+Fitting model: WeightedEnsemble_L2 ...
+	Ensemble Weights: {&#39;NeuralNetTorch&#39;: 0.571, &#39;LightGBM&#39;: 0.429}
+	-271.795	 = Validation score   (-root_mean_squared_error)
+	0.02s	 = Training   runtime
+	0.0s	 = Validation runtime
+AutoGluon training complete, total runtime = 47.77s ... Best model: &quot;WeightedEnsemble_L2&quot;
+TabularPredictor saved. To load, use: predictor = TabularPredictor.load(&quot;AutogluonModels\ag-20240521_183554&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span><span class="o">.</span><span class="n">info</span><span class="p">()[</span><span class="s1">&#39;model_info&#39;</span><span class="p">][</span><span class="s1">&#39;LightGBMLarge&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;name&#39;: &#39;LightGBMLarge&#39;,
+ &#39;model_type&#39;: &#39;LGBModel&#39;,
+ &#39;problem_type&#39;: &#39;regression&#39;,
+ &#39;eval_metric&#39;: &#39;root_mean_squared_error&#39;,
+ &#39;stopping_metric&#39;: &#39;root_mean_squared_error&#39;,
+ &#39;fit_time&#39;: 0.6330480575561523,
+ &#39;num_classes&#39;: None,
+ &#39;quantile_levels&#39;: None,
+ &#39;predict_time&#39;: 0.024965286254882812,
+ &#39;val_score&#39;: -309.33122799933693,
+ &#39;hyperparameters&#39;: {&#39;learning_rate&#39;: 0.03,
+  &#39;num_leaves&#39;: 128,
+  &#39;feature_fraction&#39;: 0.9,
+  &#39;min_data_in_leaf&#39;: 5},
+ &#39;hyperparameters_fit&#39;: {&#39;num_boost_round&#39;: 85},
+ &#39;hyperparameters_nondefault&#39;: [&#39;learning_rate&#39;,
+  &#39;num_leaves&#39;,
+  &#39;feature_fraction&#39;,
+  &#39;min_data_in_leaf&#39;],
+ &#39;ag_args_fit&#39;: {&#39;max_memory_usage_ratio&#39;: 1.0,
+  &#39;max_time_limit_ratio&#39;: 1.0,
+  &#39;max_time_limit&#39;: None,
+  &#39;min_time_limit&#39;: 0,
+  &#39;valid_raw_types&#39;: [&#39;bool&#39;, &#39;int&#39;, &#39;float&#39;, &#39;category&#39;],
+  &#39;valid_special_types&#39;: None,
+  &#39;ignored_type_group_special&#39;: None,
+  &#39;ignored_type_group_raw&#39;: None,
+  &#39;get_features_kwargs&#39;: None,
+  &#39;get_features_kwargs_extra&#39;: None,
+  &#39;predict_1_batch_size&#39;: None,
+  &#39;temperature_scalar&#39;: None},
+ &#39;num_features&#39;: 6,
+ &#39;features&#39;: [&#39;bill_length_mm&#39;,
+  &#39;bill_depth_mm&#39;,
+  &#39;flipper_length_mm&#39;,
+  &#39;sex&#39;,
+  &#39;species&#39;,
+  &#39;island&#39;],
+ &#39;feature_metadata&#39;: &lt;autogluon.common.features.feature_metadata.FeatureMetadata at 0x55a215d0&gt;,
+ &#39;memory_size&#39;: 333653,
+ &#39;compile_time&#39;: None,
+ &#39;is_initialized&#39;: True,
+ &#39;is_fit&#39;: True,
+ &#39;is_valid&#39;: True,
+ &#39;can_infer&#39;: True}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span><span class="o">.</span><span class="n">leaderboard</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>score_val</th>
+      <th>eval_metric</th>
+      <th>pred_time_val</th>
+      <th>fit_time</th>
+      <th>pred_time_val_marginal</th>
+      <th>fit_time_marginal</th>
+      <th>stack_level</th>
+      <th>can_infer</th>
+      <th>fit_order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>WeightedEnsemble_L2</td>
+      <td>-271.795036</td>
+      <td>root_mean_squared_error</td>
+      <td>0.020586</td>
+      <td>5.187936</td>
+      <td>0.000984</td>
+      <td>0.024336</td>
+      <td>2</td>
+      <td>True</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NeuralNetTorch</td>
+      <td>-275.610711</td>
+      <td>root_mean_squared_error</td>
+      <td>0.015573</td>
+      <td>4.680437</td>
+      <td>0.015573</td>
+      <td>4.680437</td>
+      <td>1</td>
+      <td>True</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>LightGBM</td>
+      <td>-278.736519</td>
+      <td>root_mean_squared_error</td>
+      <td>0.004030</td>
+      <td>0.483164</td>
+      <td>0.004030</td>
+      <td>0.483164</td>
+      <td>1</td>
+      <td>True</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>LightGBMXT</td>
+      <td>-286.413619</td>
+      <td>root_mean_squared_error</td>
+      <td>0.015625</td>
+      <td>0.905323</td>
+      <td>0.015625</td>
+      <td>0.905323</td>
+      <td>1</td>
+      <td>True</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CatBoost</td>
+      <td>-290.288263</td>
+      <td>root_mean_squared_error</td>
+      <td>0.015601</td>
+      <td>30.984566</td>
+      <td>0.015601</td>
+      <td>30.984566</td>
+      <td>1</td>
+      <td>True</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>ExtraTreesMSE</td>
+      <td>-296.920127</td>
+      <td>root_mean_squared_error</td>
+      <td>0.037823</td>
+      <td>0.624488</td>
+      <td>0.037823</td>
+      <td>0.624488</td>
+      <td>1</td>
+      <td>True</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>RandomForestMSE</td>
+      <td>-297.635968</td>
+      <td>root_mean_squared_error</td>
+      <td>0.052658</td>
+      <td>0.865294</td>
+      <td>0.052658</td>
+      <td>0.865294</td>
+      <td>1</td>
+      <td>True</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>XGBoost</td>
+      <td>-308.908638</td>
+      <td>root_mean_squared_error</td>
+      <td>0.004785</td>
+      <td>0.494504</td>
+      <td>0.004785</td>
+      <td>0.494504</td>
+      <td>1</td>
+      <td>True</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>LightGBMLarge</td>
+      <td>-309.331228</td>
+      <td>root_mean_squared_error</td>
+      <td>0.024965</td>
+      <td>0.633048</td>
+      <td>0.024965</td>
+      <td>0.633048</td>
+      <td>1</td>
+      <td>True</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>KNeighborsUnif</td>
+      <td>-359.675434</td>
+      <td>root_mean_squared_error</td>
+      <td>0.025387</td>
+      <td>5.783694</td>
+      <td>0.025387</td>
+      <td>5.783694</td>
+      <td>1</td>
+      <td>True</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>KNeighborsDist</td>
+      <td>-364.553091</td>
+      <td>root_mean_squared_error</td>
+      <td>0.018113</td>
+      <td>0.005821</td>
+      <td>0.018113</td>
+      <td>0.005821</td>
+      <td>1</td>
+      <td>True</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>NeuralNetFastAI</td>
+      <td>-382.041411</td>
+      <td>root_mean_squared_error</td>
+      <td>0.019587</td>
+      <td>1.636647</td>
+      <td>0.019587</td>
+      <td>1.636647</td>
+      <td>1</td>
+      <td>True</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 </section>
 <section id="classification">
 <h3>Classification<a class="headerlink" href="#classification" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictor_species</span> <span class="o">=</span> <span class="n">TabularPredictor</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="o">=</span><span class="n">penguins</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No path specified. Models will be saved in: &quot;AutogluonModels\ag-20240521_184642&quot;
+No presets specified! To achieve strong results with AutoGluon, it is recommended to use the available presets.
+	Recommended Presets (For more details refer to https://auto.gluon.ai/stable/tutorials/tabular/tabular-essentials.html#presets):
+	presets=&#39;best_quality&#39;   : Maximize accuracy. Default time_limit=3600.
+	presets=&#39;high_quality&#39;   : Strong accuracy with fast inference speed. Default time_limit=3600.
+	presets=&#39;good_quality&#39;   : Good accuracy with very fast inference speed. Default time_limit=3600.
+	presets=&#39;medium_quality&#39; : Fast training time, ideal for initial prototyping.
+Beginning AutoGluon training ...
+AutoGluon will save models to &quot;AutogluonModels\ag-20240521_184642&quot;
+=================== System Info ===================
+AutoGluon Version:  1.1.0
+Python Version:     3.11.8
+Operating System:   Windows
+Platform Machine:   AMD64
+Platform Version:   10.0.22635
+CPU Count:          12
+Memory Avail:       4.72 GB / 15.67 GB (30.1%)
+Disk Space Avail:   363.41 GB / 474.72 GB (76.6%)
+===================================================
+Train Data Rows:    333
+Train Data Columns: 6
+Label Column:       species
+AutoGluon infers your prediction problem is: &#39;multiclass&#39; (because dtype of label-column == object).
+	3 unique label values:  [&#39;Adelie&#39;, &#39;Chinstrap&#39;, &#39;Gentoo&#39;]
+	If &#39;multiclass&#39; is not the correct problem_type, please manually specify the problem_type parameter during predictor init (You may specify problem_type as one of: [&#39;binary&#39;, &#39;multiclass&#39;, &#39;regression&#39;])
+Problem Type:       multiclass
+Preprocessing data ...
+Train Data Class Count: 3
+Using Feature Generators to preprocess the data ...
+Fitting AutoMLPipelineFeatureGenerator...
+	Available Memory:                    4822.41 MB
+	Train Data (Original)  Memory Usage: 0.05 MB (0.0% of available memory)
+	Inferring data type of each feature based on column values. Set feature_metadata_in to manually specify special dtypes of the features.
+	Stage 1 Generators:
+		Fitting AsTypeFeatureGenerator...
+			Note: Converting 1 features to boolean dtype as they only contain 2 unique values.
+	Stage 2 Generators:
+		Fitting FillNaFeatureGenerator...
+	Stage 3 Generators:
+		Fitting IdentityFeatureGenerator...
+		Fitting CategoryFeatureGenerator...
+			Fitting CategoryMemoryMinimizeFeatureGenerator...
+	Stage 4 Generators:
+		Fitting DropUniqueFeatureGenerator...
+	Stage 5 Generators:
+		Fitting DropDuplicatesFeatureGenerator...
+	Types of features in original data (raw dtype, special dtypes):
+		(&#39;float&#39;, [])  : 4 | [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+		(&#39;object&#39;, []) : 2 | [&#39;island&#39;, &#39;sex&#39;]
+	Types of features in processed data (raw dtype, special dtypes):
+		(&#39;category&#39;, [])  : 1 | [&#39;island&#39;]
+		(&#39;float&#39;, [])     : 4 | [&#39;bill_length_mm&#39;, &#39;bill_depth_mm&#39;, &#39;flipper_length_mm&#39;, &#39;body_mass_g&#39;]
+		(&#39;int&#39;, [&#39;bool&#39;]) : 1 | [&#39;sex&#39;]
+	0.1s = Fit runtime
+	6 features in original data used to generate 6 features in processed data.
+	Train Data (Processed) Memory Usage: 0.01 MB (0.0% of available memory)
+Data preprocessing and feature engineering runtime = 0.11s ...
+AutoGluon will gauge predictive performance using evaluation metric: &#39;accuracy&#39;
+	To change this, specify the eval_metric parameter of Predictor()
+Automatically generating train/validation split with holdout_frac=0.2, Train Rows: 266, Val Rows: 67
+User-specified model hyperparameters to be fit:
+{
+	&#39;NN_TORCH&#39;: {},
+	&#39;GBM&#39;: [{&#39;extra_trees&#39;: True, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;XT&#39;}}, {}, &#39;GBMLarge&#39;],
+	&#39;CAT&#39;: {},
+	&#39;XGB&#39;: {},
+	&#39;FASTAI&#39;: {},
+	&#39;RF&#39;: [{&#39;criterion&#39;: &#39;gini&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Gini&#39;, &#39;problem_types&#39;: [&#39;binary&#39;, &#39;multiclass&#39;]}}, {&#39;criterion&#39;: &#39;entropy&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Entr&#39;, &#39;problem_types&#39;: [&#39;binary&#39;, &#39;multiclass&#39;]}}, {&#39;criterion&#39;: &#39;squared_error&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;MSE&#39;, &#39;problem_types&#39;: [&#39;regression&#39;, &#39;quantile&#39;]}}],
+	&#39;XT&#39;: [{&#39;criterion&#39;: &#39;gini&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Gini&#39;, &#39;problem_types&#39;: [&#39;binary&#39;, &#39;multiclass&#39;]}}, {&#39;criterion&#39;: &#39;entropy&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Entr&#39;, &#39;problem_types&#39;: [&#39;binary&#39;, &#39;multiclass&#39;]}}, {&#39;criterion&#39;: &#39;squared_error&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;MSE&#39;, &#39;problem_types&#39;: [&#39;regression&#39;, &#39;quantile&#39;]}}],
+	&#39;KNN&#39;: [{&#39;weights&#39;: &#39;uniform&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Unif&#39;}}, {&#39;weights&#39;: &#39;distance&#39;, &#39;ag_args&#39;: {&#39;name_suffix&#39;: &#39;Dist&#39;}}],
+}
+Fitting 13 L1 models ...
+Fitting model: KNeighborsUnif ...
+	0.7612	 = Validation score   (accuracy)
+	0.0s	 = Training   runtime
+	0.1s	 = Validation runtime
+Fitting model: KNeighborsDist ...
+	0.8209	 = Validation score   (accuracy)
+	0.0s	 = Training   runtime
+	0.04s	 = Validation runtime
+Fitting model: NeuralNetFastAI ...
+	1.0	 = Validation score   (accuracy)
+	0.82s	 = Training   runtime
+	0.02s	 = Validation runtime
+Fitting model: LightGBMXT ...
+	1.0	 = Validation score   (accuracy)
+	0.65s	 = Training   runtime
+	0.01s	 = Validation runtime
+Fitting model: LightGBM ...
+	1.0	 = Validation score   (accuracy)
+	0.55s	 = Training   runtime
+	0.0s	 = Validation runtime
+Fitting model: RandomForestGini ...
+	0.9851	 = Validation score   (accuracy)
+	0.73s	 = Training   runtime
+	0.04s	 = Validation runtime
+Fitting model: RandomForestEntr ...
+	0.9851	 = Validation score   (accuracy)
+	0.81s	 = Training   runtime
+	0.05s	 = Validation runtime
+Fitting model: CatBoost ...
+	1.0	 = Validation score   (accuracy)
+	23.05s	 = Training   runtime
+	0.02s	 = Validation runtime
+Fitting model: ExtraTreesGini ...
+	1.0	 = Validation score   (accuracy)
+	0.68s	 = Training   runtime
+	0.04s	 = Validation runtime
+Fitting model: ExtraTreesEntr ...
+	1.0	 = Validation score   (accuracy)
+	0.83s	 = Training   runtime
+	0.05s	 = Validation runtime
+Fitting model: XGBoost ...
+	1.0	 = Validation score   (accuracy)
+	0.42s	 = Training   runtime
+	0.0s	 = Validation runtime
+Fitting model: NeuralNetTorch ...
+	1.0	 = Validation score   (accuracy)
+	1.5s	 = Training   runtime
+	0.02s	 = Validation runtime
+Fitting model: LightGBMLarge ...
+	1.0	 = Validation score   (accuracy)
+	0.99s	 = Training   runtime
+	0.01s	 = Validation runtime
+Fitting model: WeightedEnsemble_L2 ...
+	Ensemble Weights: {&#39;ExtraTreesEntr&#39;: 1.0}
+	1.0	 = Validation score   (accuracy)
+	0.17s	 = Training   runtime
+	0.0s	 = Validation runtime
+AutoGluon training complete, total runtime = 32.12s ... Best model: &quot;WeightedEnsemble_L2&quot;
+TabularPredictor saved. To load, use: predictor = TabularPredictor.load(&quot;AutogluonModels\ag-20240521_184642&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictor_species</span><span class="o">.</span><span class="n">leaderboard</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>score_val</th>
+      <th>eval_metric</th>
+      <th>pred_time_val</th>
+      <th>fit_time</th>
+      <th>pred_time_val_marginal</th>
+      <th>fit_time_marginal</th>
+      <th>stack_level</th>
+      <th>can_infer</th>
+      <th>fit_order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XGBoost</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.000000</td>
+      <td>0.416923</td>
+      <td>0.000000</td>
+      <td>0.416923</td>
+      <td>1</td>
+      <td>True</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>LightGBM</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.000000</td>
+      <td>0.546659</td>
+      <td>0.000000</td>
+      <td>0.546659</td>
+      <td>1</td>
+      <td>True</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>LightGBMXT</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.006001</td>
+      <td>0.651202</td>
+      <td>0.006001</td>
+      <td>0.651202</td>
+      <td>1</td>
+      <td>True</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>LightGBMLarge</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.007509</td>
+      <td>0.992572</td>
+      <td>0.007509</td>
+      <td>0.992572</td>
+      <td>1</td>
+      <td>True</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NeuralNetTorch</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.015687</td>
+      <td>1.499820</td>
+      <td>0.015687</td>
+      <td>1.499820</td>
+      <td>1</td>
+      <td>True</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>CatBoost</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.021176</td>
+      <td>23.045644</td>
+      <td>0.021176</td>
+      <td>23.045644</td>
+      <td>1</td>
+      <td>True</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>NeuralNetFastAI</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.022279</td>
+      <td>0.819729</td>
+      <td>0.022279</td>
+      <td>0.819729</td>
+      <td>1</td>
+      <td>True</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>ExtraTreesGini</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.043169</td>
+      <td>0.684598</td>
+      <td>0.043169</td>
+      <td>0.684598</td>
+      <td>1</td>
+      <td>True</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>WeightedEnsemble_L2</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.052838</td>
+      <td>0.994582</td>
+      <td>0.000000</td>
+      <td>0.166159</td>
+      <td>2</td>
+      <td>True</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>ExtraTreesEntr</td>
+      <td>1.000000</td>
+      <td>accuracy</td>
+      <td>0.052838</td>
+      <td>0.828423</td>
+      <td>0.052838</td>
+      <td>0.828423</td>
+      <td>1</td>
+      <td>True</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>RandomForestGini</td>
+      <td>0.985075</td>
+      <td>accuracy</td>
+      <td>0.042906</td>
+      <td>0.725124</td>
+      <td>0.042906</td>
+      <td>0.725124</td>
+      <td>1</td>
+      <td>True</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>RandomForestEntr</td>
+      <td>0.985075</td>
+      <td>accuracy</td>
+      <td>0.052538</td>
+      <td>0.808039</td>
+      <td>0.052538</td>
+      <td>0.808039</td>
+      <td>1</td>
+      <td>True</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>KNeighborsDist</td>
+      <td>0.820896</td>
+      <td>accuracy</td>
+      <td>0.043806</td>
+      <td>0.004009</td>
+      <td>0.043806</td>
+      <td>0.004009</td>
+      <td>1</td>
+      <td>True</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>KNeighborsUnif</td>
+      <td>0.761194</td>
+      <td>accuracy</td>
+      <td>0.104038</td>
+      <td>0.004679</td>
+      <td>0.104038</td>
+      <td>0.004679</td>
+      <td>1</td>
+      <td>True</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 </section>
 </section>
 </section>
